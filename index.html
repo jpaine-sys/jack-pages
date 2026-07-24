@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jack Pages — Template Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue:    #0176D3;
+    --navy:    #032D60;
+    --teal:    #06A59A;
+    --green:   #2E844A;
+    --orange:  #FE9339;
+    --purple:  #5867E8;
+    --sky:     #7DD3F8;   /* hero em colour */
+    --border:  #E2E8F0;   /* slightly cooler than plain grey */
+    --surface: #F4F8FF;   /* section alt — blue-tinted off-white */
+    --muted:   #64748B;   /* slate-ish, not warm grey */
+    --text:    #0F172A;   /* near-black with a navy tint */
+    --r:       12px;
+    --r-lg:    20px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    color: var(--text);
+    background: #fff;
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─────────────────────────────────────────
+     NAV
+  ───────────────────────────────────────── */
+  nav {
+    background: var(--navy);
+    height: 58px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 0 40px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    /* subtle bottom shadow instead of a hard border */
+    box-shadow: 0 1px 0 rgba(255,255,255,0.06), 0 4px 24px rgba(3,45,96,0.4);
+  }
+
+  /* LEFT — logos */
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+  /* Salesforce wordmark */
+  .nav-logo .sf-logo { height: 20px; }
+
+  /* Thin divider between logos */
+  .nav-logo-divider {
+    width: 1px;
+    height: 22px;
+    background: rgba(255,255,255,0.2);
+    margin: 0 14px;
+    flex-shrink: 0;
+  }
+
+  /* Customer logo — white-filtered so it sits on navy */
+  .nav-logo .customer-logo {
+    height: 20px;
+    filter: brightness(0) invert(1);
+    opacity: 0.85;
+  }
+
+  /* CENTRE — tabs */
+  .nav-tabs {
+    display: flex;
+    gap: 2px;
+    align-items: center;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 3px;
+  }
+  .nav-tabs a {
+    color: rgba(255,255,255,0.5);
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 5px 16px;
+    border-radius: 5px;
+    letter-spacing: 0.01em;
+    transition: background 0.15s, color 0.15s;
+    white-space: nowrap;
+  }
+  .nav-tabs a:hover { color: rgba(255,255,255,0.85); background: rgba(255,255,255,0.08); }
+  .nav-tabs a.active { color: white; background: rgba(255,255,255,0.15); }
+
+  /* RIGHT — page counter */
+  .nav-right { display: flex; justify-content: flex-end; }
+  .nav-page-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* ─────────────────────────────────────────
+     PAGES
+  ───────────────────────────────────────── */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ─────────────────────────────────────────
+     HERO — DARK
+  ───────────────────────────────────────── */
+  .hero-dark {
+    background: linear-gradient(145deg, #021E4E 0%, #032D60 45%, #0B5AAC 100%);
+    padding: 80px 56px 76px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+  /* Teal glow — top right */
+  .hero-dark::before {
+    content: '';
+    position: absolute;
+    top: -140px; right: -80px;
+    width: 560px; height: 560px;
+    background: radial-gradient(circle, rgba(6,165,154,0.22) 0%, transparent 62%);
+    pointer-events: none;
+  }
+  /* Subtle dot-grid texture */
+  .hero-dark::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,0.035) 1px, transparent 1px);
+    background-size: 28px 28px;
+    pointer-events: none;
+  }
+  .hero-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-astro {
+    position: absolute;
+    bottom: -16px;
+    right: 52px;
+    height: 230px;
+    z-index: 2;
+    pointer-events: none;
+    /* subtle drop shadow so it reads over the gradient */
+    filter: drop-shadow(0 8px 24px rgba(3,45,96,0.5));
+  }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.16);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    color: rgba(255,255,255,0.75);
+  }
+  .hero-dark h1 {
+    font-size: clamp(36px, 4vw, 54px);
+    font-weight: 900;
+    line-height: 1.06;
+    letter-spacing: -0.04em;
+    margin-bottom: 20px;
+    max-width: 640px;
+  }
+  .hero-dark h1 em { color: var(--sky); font-style: normal; }
+  .hero-sub {
+    font-size: 16px;
+    color: rgba(255,255,255,0.68);
+    max-width: 520px;
+    margin-bottom: 48px;
+    line-height: 1.7;
+    font-weight: 400;
+  }
+  /* stat strip */
+  .hero-stats {
+    display: flex;
+    width: fit-content;
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: var(--r);
+    overflow: hidden;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(8px);
+  }
+  .hs { padding: 18px 32px; border-right: 1px solid rgba(255,255,255,0.1); text-align: center; }
+  .hs:last-child { border-right: none; }
+  .hs-val { font-size: 28px; font-weight: 800; letter-spacing: -0.04em; display: block; line-height: 1; }
+  .hs-lbl { font-size: 11px; color: rgba(255,255,255,0.5); font-weight: 500; margin-top: 5px; letter-spacing: 0.02em; }
+
+  /* ─────────────────────────────────────────
+     HERO — LIGHT
+  ───────────────────────────────────────── */
+  .hero-light {
+    background: var(--surface);
+    padding: 72px 56px 64px;
+    color: var(--navy);
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-light::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 480px; height: 480px;
+    background: radial-gradient(circle, rgba(1,118,211,0.08) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .hero-light h1 {
+    font-size: clamp(30px, 3.2vw, 44px);
+    font-weight: 900;
+    line-height: 1.08;
+    letter-spacing: -0.035em;
+    margin-bottom: 16px;
+    max-width: 600px;
+  }
+  .hero-light h1 em { color: var(--blue); font-style: normal; }
+  .hero-light .hero-sub { color: var(--muted); }
+  .hero-light .pill { background: rgba(1,118,211,0.07); border-color: rgba(1,118,211,0.18); color: var(--blue); }
+  .hero-light .hero-stats { border-color: var(--border); background: white; box-shadow: 0 2px 12px rgba(3,45,96,0.06); }
+  .hero-light .hs { border-right-color: var(--border); }
+  .hero-light .hs-val { color: var(--navy); }
+  .hero-light .hs-lbl { color: var(--muted); }
+
+  /* ─────────────────────────────────────────
+     SECTION SHELL
+  ───────────────────────────────────────── */
+  section { padding: 72px 56px; }
+  section.alt { background: var(--surface); }
+  .section-inner { max-width: 900px; margin: 0 auto; }
+  .section-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--blue);
+    margin-bottom: 10px;
+  }
+  h2 {
+    font-size: clamp(24px, 2.4vw, 32px);
+    font-weight: 800;
+    color: var(--navy);
+    letter-spacing: -0.03em;
+    line-height: 1.18;
+    margin-bottom: 10px;
+  }
+  .section-sub {
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 580px;
+    margin-bottom: 36px;
+    line-height: 1.65;
+  }
+
+  /* ─────────────────────────────────────────
+     CARDS
+  ───────────────────────────────────────── */
+  .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .card-grid.cols-2 { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+
+  .card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: 28px 24px;
+    position: relative;
+    overflow: hidden;
+    /* lift shadow — adds depth without being heavy */
+    box-shadow: 0 1px 4px rgba(3,45,96,0.04), 0 4px 16px rgba(3,45,96,0.06);
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .card:hover {
+    box-shadow: 0 2px 8px rgba(3,45,96,0.06), 0 8px 28px rgba(3,45,96,0.1);
+    transform: translateY(-2px);
+  }
+  /* colour bar — top edge */
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: var(--r-lg) var(--r-lg) 0 0;
+  }
+  .card.blue::before   { background: var(--blue); }
+  .card.green::before  { background: var(--green); }
+  .card.teal::before   { background: var(--teal); }
+  .card.purple::before { background: var(--purple); }
+  .card.orange::before { background: var(--orange); }
+
+  .card-tag {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    padding: 3px 9px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+    display: inline-block;
+  }
+  .tag-blue   { background: #EBF5FF; color: var(--blue); }
+  .tag-green  { background: #EEF7F0; color: var(--green); }
+  .tag-teal   { background: #E6F8F7; color: var(--teal); }
+  .tag-purple { background: #F0EEFF; color: var(--purple); }
+  .tag-orange { background: #FFF3E8; color: #B55A00; }
+  .tag-grey   { background: #F1F5F9; color: var(--muted); }
+
+  .card h3 { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 8px; line-height: 1.35; }
+  .card p  { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 16px; }
+
+  .card-bullets { display: flex; flex-direction: column; gap: 9px; }
+  .card-bullet  { display: flex; align-items: flex-start; gap: 9px; font-size: 13px; color: var(--text); line-height: 1.45; }
+  .bullet-dot   { width: 5px; height: 5px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
+  .card-bullet strong { font-weight: 600; color: var(--navy); }
+
+  /* status badge */
+  .card-status {
+    position: absolute;
+    top: 16px; right: 16px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 3px 9px;
+    border-radius: 20px;
+  }
+  .status-track   { background: #EEF7F0; color: var(--green); }
+  .status-risk    { background: #FFF3E8; color: #B55A00; }
+  .status-blocked { background: #FEE9E8; color: #C23934; }
+
+  /* ─────────────────────────────────────────
+     KPI ROW
+  ───────────────────────────────────────── */
+  .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 36px; }
+  .kpi-tile {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: 28px 20px;
+    text-align: center;
+    box-shadow: 0 1px 4px rgba(3,45,96,0.04), 0 2px 10px rgba(3,45,96,0.05);
+  }
+  .kpi-val   { font-size: 32px; font-weight: 800; letter-spacing: -0.04em; line-height: 1; margin-bottom: 8px; }
+  .kpi-label { font-size: 12px; color: var(--muted); line-height: 1.45; font-weight: 500; }
+
+  /* ─────────────────────────────────────────
+     CALLOUT
+  ───────────────────────────────────────── */
+  .callout {
+    background: #EBF5FF;
+    border-left: 3px solid var(--blue);
+    border-radius: var(--r);
+    padding: 20px 24px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    margin-bottom: 28px;
+  }
+  .callout.teal   { background: #E5F7F6; border-left-color: var(--teal); }
+  .callout.orange { background: #FFF3E8; border-left-color: var(--orange); }
+  .callout-icon  { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .callout-title { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 3px; }
+  .callout-body  { font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+  /* ─────────────────────────────────────────
+     SPLIT LAYOUT
+  ───────────────────────────────────────── */
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+
+  /* ─────────────────────────────────────────
+     TABLE
+  ───────────────────────────────────────── */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    border-radius: var(--r);
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .data-table th {
+    background: var(--navy);
+    color: rgba(255,255,255,0.85);
+    padding: 11px 16px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .data-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: top; }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: var(--surface); }
+
+  /* ─────────────────────────────────────────
+     LOGO WALL
+  ───────────────────────────────────────── */
+  .logo-wall {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    background: white;
+  }
+  .logo-wall-item {
+    flex: 1;
+    min-width: 120px;
+    padding: 28px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+  .logo-wall-item:hover { background: var(--surface); }
+  .logo-wall-item:last-child { border-right: none; }
+  .logo-wall-item img {
+    height: 28px;
+    filter: grayscale(100%) opacity(0.45);
+    transition: filter 0.2s;
+  }
+  .logo-wall-item:hover img { filter: grayscale(0%) opacity(1); }
+  /* label above logo wall */
+  .logo-wall-label {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  /* ─────────────────────────────────────────
+     PULL QUOTE
+  ───────────────────────────────────────── */
+  .pull-quote {
+    position: relative;
+    padding: 44px 48px 40px;
+    background: var(--navy);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    color: white;
+  }
+  .pull-quote::before {
+    content: '\201C';
+    position: absolute;
+    top: -10px; left: 32px;
+    font-size: 140px;
+    font-weight: 900;
+    color: rgba(255,255,255,0.06);
+    line-height: 1;
+    font-family: Georgia, serif;
+    pointer-events: none;
+  }
+  .pull-quote::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; right: -60px;
+    width: 240px; height: 240px;
+    background: radial-gradient(circle, rgba(6,165,154,0.2) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .pq-text {
+    font-size: clamp(18px, 2vw, 24px);
+    font-weight: 700;
+    line-height: 1.45;
+    letter-spacing: -0.02em;
+    color: white;
+    margin-bottom: 28px;
+    position: relative;
+    z-index: 1;
+    max-width: 680px;
+  }
+  .pq-text em { color: var(--sky); font-style: normal; }
+  .pq-attribution {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    position: relative;
+    z-index: 1;
+  }
+  .pq-avatar {
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.12);
+    border: 2px solid rgba(255,255,255,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .pq-name  { font-size: 14px; font-weight: 700; color: white; }
+  .pq-title { font-size: 12px; color: rgba(255,255,255,0.55); margin-top: 1px; }
+
+  /* ─────────────────────────────────────────
+     NUMBERED STEPS
+  ───────────────────────────────────────── */
+  .steps { display: flex; flex-direction: column; gap: 2px; }
+  .step {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+  }
+  .step:last-child { border-bottom: none; }
+  .step-num {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: white;
+    font-size: 14px;
+    font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    letter-spacing: -0.02em;
+  }
+  .step-title { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 5px; }
+  .step-desc  { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .step-meta  { font-size: 11px; font-weight: 600; color: var(--teal); margin-top: 6px; text-transform: uppercase; letter-spacing: 0.06em; }
+
+  /* ─────────────────────────────────────────
+     ICON ROWS
+  ───────────────────────────────────────── */
+  .icon-rows { display: flex; flex-direction: column; gap: 0; }
+  .icon-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .icon-row:last-child { border-bottom: none; }
+  .icon-row-icon {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 17px;
+    flex-shrink: 0;
+  }
+  .icon-row-title { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 3px; }
+  .icon-row-desc  { font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+  /* ─────────────────────────────────────────
+     CTA STRIP
+  ───────────────────────────────────────── */
+  .cta-strip {
+    background: linear-gradient(135deg, #021E4E 0%, #032D60 50%, #0B5AAC 100%);
+    padding: 52px 56px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-strip::before {
+    content: '';
+    position: absolute;
+    top: -80px; left: 50%;
+    transform: translateX(-50%);
+    width: 500px; height: 300px;
+    background: radial-gradient(ellipse, rgba(6,165,154,0.18) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .cta-strip-eyebrow {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--sky); margin-bottom: 12px;
+  }
+  .cta-strip h2 {
+    color: white;
+    font-size: clamp(22px, 2.5vw, 32px);
+    margin-bottom: 10px;
+    position: relative; z-index: 1;
+  }
+  .cta-strip p {
+    color: rgba(255,255,255,0.6);
+    font-size: 15px;
+    margin-bottom: 32px;
+    position: relative; z-index: 1;
+  }
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    color: var(--navy);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 12px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    letter-spacing: 0.01em;
+    transition: background 0.15s, transform 0.15s;
+    position: relative; z-index: 1;
+  }
+  .cta-btn:hover { background: #EAF5FE; transform: translateY(-1px); }
+  .cta-btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 12px 24px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.25);
+    text-decoration: none;
+    margin-left: 10px;
+    transition: border-color 0.15s, background 0.15s;
+    position: relative; z-index: 1;
+  }
+  .cta-btn-ghost:hover { border-color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.06); }
+
+  /* ─────────────────────────────────────────
+     BEFORE / AFTER COMPARISON TABLE
+  ───────────────────────────────────────── */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .compare-table th {
+    padding: 14px 20px;
+    text-align: left;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.03em;
+  }
+  .compare-table th:first-child {
+    background: #F8FAFF;
+    color: var(--muted);
+    border-right: 1px solid var(--border);
+    width: 28%;
+  }
+  .compare-table th.col-before {
+    background: #FEF3EE;
+    color: #9A3412;
+    border-right: 1px solid var(--border);
+  }
+  .compare-table th.col-after {
+    background: #EEF7F0;
+    color: var(--green);
+  }
+  .compare-table td {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .compare-table tr:last-child td { border-bottom: none; }
+  .compare-table td:first-child {
+    font-weight: 600;
+    color: var(--navy);
+    background: #FAFBFF;
+    border-right: 1px solid var(--border);
+    font-size: 12px;
+  }
+  .compare-table td.before {
+    color: var(--muted);
+    border-right: 1px solid var(--border);
+    background: #FFFAF8;
+  }
+  .compare-table td.after {
+    color: var(--navy);
+    font-weight: 500;
+    background: white;
+  }
+  .compare-good {
+    display: inline-flex; align-items: center; gap: 5px;
+    color: var(--green); font-weight: 700; font-size: 12px;
+    margin-top: 4px;
+  }
+
+  /* ─────────────────────────────────────────
+     TIMELINE — DARK SECTION
+  ───────────────────────────────────────── */
+  .section-dark {
+    background: linear-gradient(155deg, #021A48 0%, #032D60 60%, #0B4A8A 100%);
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+  .section-dark::before {
+    content: '';
+    position: absolute;
+    bottom: -100px; left: -80px;
+    width: 480px; height: 480px;
+    background: radial-gradient(circle, rgba(6,165,154,0.14) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .section-dark::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 28px 28px;
+    pointer-events: none;
+  }
+  .section-dark .section-eyebrow { color: var(--sky); }
+  .section-dark h2 { color: white; }
+  .section-dark .section-sub { color: rgba(255,255,255,0.55); }
+
+  /* Astro alongside dark section */
+  .section-dark-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .section-astro {
+    position: absolute;
+    bottom: -16px;
+    right: 0;
+    height: 190px;
+    pointer-events: none;
+    filter: drop-shadow(0 6px 20px rgba(3,45,96,0.5));
+    z-index: 2;
+  }
+
+  /* Timeline */
+  .timeline { display: flex; position: relative; padding: 32px 0 4px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    top: 45px; left: 7px; right: 7px;
+    height: 2px;
+    background: rgba(255,255,255,0.1);
+  }
+  .tl-item { flex: 1; text-align: center; position: relative; }
+  .tl-dot {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    border: 3px solid rgba(255,255,255,0.1);
+    margin: 0 auto 12px;
+    position: relative; z-index: 1;
+    transition: background 0.2s;
+  }
+  .tl-dot.done    { background: var(--teal);  border-color: rgba(255,255,255,0.2); box-shadow: 0 0 0 3px rgba(6,165,154,0.25); }
+  .tl-dot.current { background: var(--blue);  border-color: rgba(255,255,255,0.3); box-shadow: 0 0 0 3px rgba(1,118,211,0.35); }
+  .tl-label { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.8); margin-bottom: 5px; }
+  .tl-desc  { font-size: 11px; color: rgba(255,255,255,0.45); line-height: 1.4; max-width: 100px; margin: 0 auto; }
+
+  /* ─────────────────────────────────────────
+     FOOTER
+  ───────────────────────────────────────── */
+  footer {
+    background: #020F2A;
+    color: rgba(255,255,255,0.35);
+    text-align: center;
+    font-size: 12px;
+    padding: 24px 48px;
+    letter-spacing: 0.02em;
+  }
+  footer strong { color: rgba(255,255,255,0.6); }
+
+  /* ─────────────────────────────────────────
+     PRINT
+  ───────────────────────────────────────── */
+  @media print {
+    nav { display: none !important; }
+    .page { display: block !important; }
+    .page + .page { page-break-before: always; }
+    section { padding: 36px 48px; }
+    .hero-dark, .hero-light, .section-dark { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    .hero-astro, .section-astro { display: none; }
+    .card:hover { transform: none; box-shadow: none; }
+    footer { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  }
+
+  /* ─────────────────────────────────────────
+     RESPONSIVE
+  ───────────────────────────────────────── */
+  @media (max-width: 860px) {
+    nav { padding: 0 20px; grid-template-columns: auto 1fr; }
+    .nav-right { display: none; }
+    .nav-tabs { justify-content: flex-end; }
+    .nav-tabs a { font-size: 11px; padding: 4px 10px; }
+    .hero-dark, .hero-light { padding: 48px 20px 60px; }
+    .hero-astro { height: 150px; right: 12px; }
+    section { padding: 48px 20px; }
+    .card-grid, .card-grid.cols-2 { grid-template-columns: 1fr; }
+    .kpi-row { grid-template-columns: repeat(2, 1fr); }
+    .split { grid-template-columns: 1fr; gap: 28px; }
+    .hero-stats { flex-direction: column; width: 100%; }
+    .hs { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .hs:last-child { border-bottom: none; }
+    .section-astro { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════
+     NAV
+══════════════════ -->
+<nav>
+  <div class="nav-logo">
+    <!-- Salesforce horizontal wordmark (white) -->
+    <img class="sf-logo"
+      src="/Users/jpaine/Downloads/jack-decks-latest/assets/logos/Salesforce-Corporate-Logo-Horiz-White-RGB.svg"
+      alt="Salesforce">
+    <div class="nav-logo-divider"></div>
+    <!-- Customer logo — replace src with actual customer logo file -->
+    <!-- It's white-filtered automatically via CSS so any PNG/SVG works -->
+    <img class="customer-logo"
+      src="/Users/jpaine/Downloads/jack-decks-latest/assets/logos/Salesforce-Corporate-Logo-Cloud-RBG.svg"
+      alt="Customer">
+    <!-- ↑ DEMO: using SF cloud as placeholder — swap for real customer logo -->
+  </div>
+
+  <div class="nav-tabs">
+    <a href="#" class="active" onclick="showPage('page-1',this);return false;">Overview</a>
+    <a href="#" onclick="showPage('page-2',this);return false;">Strategy</a>
+    <a href="#" onclick="showPage('page-3',this);return false;">Roadmap</a>
+    <a href="#" onclick="showPage('page-4',this);return false;">Components</a>
+  </div>
+
+  <div class="nav-right">
+    <span class="nav-page-label" id="pageLabel">Page 1 of 3</span>
+  </div>
+</nav>
+
+
+<!-- ══════════════════════════════════════════
+     PAGE 1 — OVERVIEW
+══════════════════════════════════════════ -->
+<div class="page active" id="page-1">
+
+  <div class="hero-dark">
+    <img class="hero-astro"
+      src="/Users/jpaine/Downloads/jack-decks-latest/assets/characters/char-astro-jumping.png"
+      alt="">
+    <div class="hero-inner">
+      <div class="pill">✦ Account Plan · 2026</div>
+      <h1>Your headline<br>with <em>key emphasis</em> here</h1>
+      <p class="hero-sub">One or two sentences of context. Keep it under 25 words — direct and specific, not a mission statement.</p>
+      <div class="hero-stats">
+        <div class="hs"><span class="hs-val">£2.4M</span><div class="hs-lbl">Stat one</div></div>
+        <div class="hs"><span class="hs-val">3 clouds</span><div class="hs-lbl">Stat two</div></div>
+        <div class="hs"><span class="hs-val">18 mo</span><div class="hs-lbl">Stat three</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Three-column cards -->
+  <section>
+    <div class="section-inner">
+      <div class="section-eyebrow">Key Priorities</div>
+      <h2>Three-column card grid</h2>
+      <p class="section-sub">Use for OKRs, priorities, or workstreams. Colour-coded top bar, tag, and optional status badge top-right.</p>
+      <div class="card-grid">
+        <div class="card blue">
+          <span class="card-status status-track">On track</span>
+          <span class="card-tag tag-blue">Scale</span>
+          <h3>Card title one</h3>
+          <p>Specific supporting detail — real system names and real outcomes, not generic filler.</p>
+          <div class="card-bullets">
+            <div class="card-bullet"><div class="bullet-dot" style="background:var(--blue)"></div><div><strong>Bold label:</strong> supporting detail</div></div>
+            <div class="card-bullet"><div class="bullet-dot" style="background:var(--blue)"></div><div><strong>Bold label:</strong> supporting detail</div></div>
+          </div>
+        </div>
+        <div class="card green">
+          <span class="card-status status-track">On track</span>
+          <span class="card-tag tag-green">Commercial</span>
+          <h3>Card title two</h3>
+          <p>Specific supporting detail — real system names and real outcomes, not generic filler.</p>
+          <div class="card-bullets">
+            <div class="card-bullet"><div class="bullet-dot" style="background:var(--green)"></div><div><strong>Bold label:</strong> supporting detail</div></div>
+            <div class="card-bullet"><div class="bullet-dot" style="background:var(--green)"></div><div><strong>Bold label:</strong> supporting detail</div></div>
+          </div>
+        </div>
+        <div class="card purple">
+          <span class="card-status status-risk">At risk</span>
+          <span class="card-tag tag-purple">Mission</span>
+          <h3>Card title three</h3>
+          <p>Specific supporting detail — real system names and real outcomes, not generic filler.</p>
+          <div class="card-bullets">
+            <div class="card-bullet"><div class="bullet-dot" style="background:var(--purple)"></div><div><strong>Bold label:</strong> supporting detail</div></div>
+            <div class="card-bullet"><div class="bullet-dot" style="background:var(--purple)"></div><div><strong>Bold label:</strong> supporting detail</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KPI + callouts -->
+  <section class="alt">
+    <div class="section-inner">
+      <div class="section-eyebrow">Highlights</div>
+      <h2>KPI row + callout boxes</h2>
+      <p class="section-sub">Numbers at a glance, then callouts for anything that needs to stand out.</p>
+
+      <div class="kpi-row">
+        <div class="kpi-tile"><div class="kpi-val" style="color:var(--blue)">£1.2M</div><div class="kpi-label">Stat one label</div></div>
+        <div class="kpi-tile"><div class="kpi-val" style="color:var(--green)">34%</div><div class="kpi-label">Stat two label</div></div>
+        <div class="kpi-tile"><div class="kpi-val" style="color:var(--teal)">6 wks</div><div class="kpi-label">Stat three label</div></div>
+        <div class="kpi-tile"><div class="kpi-val" style="color:var(--purple)">3×</div><div class="kpi-label">Stat four label</div></div>
+      </div>
+
+      <div class="callout">
+        <div class="callout-icon">💡</div>
+        <div>
+          <div class="callout-title">Blue callout — insight or recommendation</div>
+          <div class="callout-body">Use this to surface anything that needs to stand out: a recommendation, a risk, a next step, or a direct quote from the customer.</div>
+        </div>
+      </div>
+      <div class="callout teal">
+        <div class="callout-icon">✅</div>
+        <div>
+          <div class="callout-title">Teal callout — confirmed action or positive signal</div>
+          <div class="callout-body">Good for agreed decisions, confirmed next steps, or positive momentum. Orange variant also available for warnings.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /page-1 -->
+
+
+<!-- ══════════════════════════════════════════
+     PAGE 2 — STRATEGY (light hero)
+══════════════════════════════════════════ -->
+<div class="page" id="page-2">
+
+  <div class="hero-light">
+    <img class="hero-astro"
+      src="/Users/jpaine/Downloads/jack-decks-latest/assets/characters/char-agent-astro-2.png"
+      alt="" style="height:210px; bottom:-10px;">
+    <div class="hero-inner">
+      <div class="pill">Strategy</div>
+      <h1>Light hero —<br><em>softer for internal pages</em></h1>
+      <p class="hero-sub">Use this for QBR leave-behinds, internal briefs, or any page where a dark hero would feel too heavy.</p>
+      <div class="hero-stats">
+        <div class="hs"><span class="hs-val">4 BUs</span><div class="hs-lbl">Business units</div></div>
+        <div class="hs"><span class="hs-val">£850K</span><div class="hs-lbl">Open pipeline</div></div>
+        <div class="hs"><span class="hs-val">Q3</span><div class="hs-lbl">Target close</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Split: text + table -->
+  <section>
+    <div class="section-inner">
+      <div class="section-eyebrow">Analysis</div>
+      <h2>Two-column split layout</h2>
+      <p class="section-sub">Narrative on the left, structured evidence on the right — table, mini grid, or bullet list.</p>
+      <div class="split">
+        <div>
+          <div class="section-eyebrow">Context</div>
+          <h2 style="font-size:22px;margin-bottom:14px;">Text column on the left</h2>
+          <p style="color:var(--muted);font-size:14px;line-height:1.7;margin-bottom:14px;">Use this side for the narrative — the why, the context, the story behind the numbers. Keep it to three short paragraphs at most.</p>
+          <p style="color:var(--muted);font-size:14px;line-height:1.7;">The right side holds the structured evidence: a table, a mini card grid, or a bullet list. The split stops the page feeling like a wall of text.</p>
+        </div>
+        <div>
+          <table class="data-table">
+            <thead><tr><th>Workstream</th><th>Status</th><th>Owner</th></tr></thead>
+            <tbody>
+              <tr><td>Workstream one</td><td>In progress</td><td>Team A</td></tr>
+              <tr><td>Workstream two</td><td>Pending</td><td>Team B</td></tr>
+              <tr><td>Workstream three</td><td>Complete</td><td>Team C</td></tr>
+              <tr><td>Workstream four</td><td>Blocked</td><td>Team D</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Two-column cards -->
+  <section class="alt">
+    <div class="section-inner">
+      <div class="section-eyebrow">Opportunities</div>
+      <h2>Two-column card grid</h2>
+      <p class="section-sub">More room per card — use when you have four items and three columns feels too wide.</p>
+      <div class="card-grid cols-2">
+        <div class="card teal">
+          <span class="card-tag tag-teal">Growth</span>
+          <h3>Opportunity one</h3>
+          <p>Two columns give more room per card — good for longer descriptions or three or more bullet points.</p>
+          <div class="card-bullets">
+            <div class="card-bullet"><div class="bullet-dot" style="background:var(--teal)"></div><div><strong>Sub-item:</strong> detail here</div></div>
+            <div class="card-bullet"><div class="bullet-dot" style="background:var(--teal)"></div><div><strong>Sub-item:</strong> detail here</div></div>
+            <div class="card-bullet"><div class="bullet-dot" style="background:var(--teal)"></div><div><strong>Sub-item:</strong> detail here</div></div>
+          </div>
+        </div>
+        <div class="card orange">
+          <span class="card-status status-risk">At risk</span>
+          <span class="card-tag tag-orange">Risk</span>
+          <h3>Opportunity two</h3>
+          <p>Status badge appears top-right. On track = green, at risk = orange, blocked = red.</p>
+          <div class="card-bullets">
+            <div class="card-bullet"><div class="bullet-dot" style="background:var(--orange)"></div><div><strong>Sub-item:</strong> detail here</div></div>
+            <div class="card-bullet"><div class="bullet-dot" style="background:var(--orange)"></div><div><strong>Sub-item:</strong> detail here</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /page-2 -->
+
+
+<!-- ══════════════════════════════════════════
+     PAGE 3 — ROADMAP
+══════════════════════════════════════════ -->
+<div class="page" id="page-3">
+
+  <div class="hero-dark">
+    <img class="hero-astro"
+      src="/Users/jpaine/Downloads/jack-decks-latest/assets/characters/char-agent-astro-3.png"
+      alt="" style="height:210px;">
+    <div class="hero-inner">
+      <div class="pill">🗓 Roadmap</div>
+      <h1>What happens<br><em>next</em></h1>
+      <p class="hero-sub">Milestones, phases, and the path forward. Teal = complete, blue = current, grey = upcoming.</p>
+    </div>
+  </div>
+
+  <!-- Phase cards -->
+  <section>
+    <div class="section-inner">
+      <div class="section-eyebrow">Phase Overview</div>
+      <h2>Phases at a glance</h2>
+      <p class="section-sub">Context cards above the timeline — add narrative for each phase before the visual strip.</p>
+      <div class="card-grid">
+        <div class="card teal">
+          <span class="card-tag tag-teal">Complete</span>
+          <h3>Phase 1 — Discovery</h3>
+          <p>What was done, what was decided, and what it unlocked for phase two.</p>
+          <div class="card-bullets">
+            <div class="card-bullet"><div class="bullet-dot" style="background:var(--teal)"></div><div>Outcome one delivered</div></div>
+            <div class="card-bullet"><div class="bullet-dot" style="background:var(--teal)"></div><div>Outcome two confirmed</div></div>
+          </div>
+        </div>
+        <div class="card blue">
+          <span class="card-status status-track">In progress</span>
+          <span class="card-tag tag-blue">Current</span>
+          <h3>Phase 2 — Build</h3>
+          <p>What's happening now, who's involved, and what the milestone looks like.</p>
+          <div class="card-bullets">
+            <div class="card-bullet"><div class="bullet-dot" style="background:var(--blue)"></div><div>Active workstream one</div></div>
+            <div class="card-bullet"><div class="bullet-dot" style="background:var(--blue)"></div><div>Active workstream two</div></div>
+          </div>
+        </div>
+        <div class="card" style="border-color:var(--border)">
+          <span class="card-tag tag-grey">Upcoming</span>
+          <h3>Phase 3 — Scale</h3>
+          <p>What success looks like at the end. The outcome that justifies the whole programme.</p>
+          <div class="card-bullets">
+            <div class="card-bullet"><div class="bullet-dot" style="background:var(--muted)"></div><div>Future outcome one</div></div>
+            <div class="card-bullet"><div class="bullet-dot" style="background:var(--muted)"></div><div>Future outcome two</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dark timeline — always last -->
+  <section class="section-dark" style="padding: 64px 56px 72px;">
+    <img class="section-astro"
+      src="/Users/jpaine/Downloads/jack-decks-latest/assets/characters/char-astro-jumping.png"
+      alt="">
+    <div class="section-dark-inner">
+      <div class="section-eyebrow">Timeline</div>
+      <h2>Milestones at a glance</h2>
+      <p class="section-sub" style="margin-bottom:8px;">Teal = complete &nbsp;·&nbsp; Blue = current &nbsp;·&nbsp; Grey = upcoming</p>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-dot done"></div><div class="tl-label">Q1 2026</div><div class="tl-desc">Phase complete</div></div>
+        <div class="tl-item"><div class="tl-dot done"></div><div class="tl-label">Q2 2026</div><div class="tl-desc">Phase complete</div></div>
+        <div class="tl-item"><div class="tl-dot current"></div><div class="tl-label">Q3 2026</div><div class="tl-desc">In progress now</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-label">Q4 2026</div><div class="tl-desc">Next milestone</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-label">Q1 2027</div><div class="tl-desc">Future goal</div></div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /page-3 -->
+
+
+<!-- ══════════════════════════════════════════
+     PAGE 4 — NEW COMPONENTS
+══════════════════════════════════════════ -->
+<div class="page" id="page-4">
+
+  <div class="hero-dark">
+    <img class="hero-astro"
+      src="/Users/jpaine/Downloads/jack-decks-latest/assets/characters/char-agent-einstein-1.png"
+      alt="" style="height:220px;">
+    <div class="hero-inner">
+      <div class="pill">✦ Component Library</div>
+      <h1>Six new components —<br><em>all available in any page</em></h1>
+      <p class="hero-sub">Logo wall, pull quote, numbered steps, icon rows, CTA strip, before/after table. Mix and match as content demands.</p>
+    </div>
+  </div>
+
+  <!-- 1. LOGO WALL -->
+  <section>
+    <div class="section-inner">
+      <div class="section-eyebrow">Logo Wall</div>
+      <h2>Customer or product logos</h2>
+      <p class="section-sub">Use for "they already own this" product strips, reference customer logos, or partner badges. Greyscale by default — colour on hover.</p>
+      <div class="logo-wall-label">Salesforce product portfolio</div>
+      <div class="logo-wall">
+        <div class="logo-wall-item">
+          <img src="/Users/jpaine/Downloads/jack-decks-latest/assets/logos/Salesforce-Corporate-Logo-Horiz-RGB.svg" alt="Salesforce">
+        </div>
+        <div class="logo-wall-item">
+          <img src="/Users/jpaine/Downloads/jack-decks-latest/assets/logos/Salesforce-Corporate-Logo-Cloud-RBG.svg" alt="Data Cloud">
+        </div>
+        <div class="logo-wall-item">
+          <img src="/Users/jpaine/Downloads/jack-decks-latest/assets/logos/Salesforce-Corporate-Logo-Horiz-RGB.svg" alt="Marketing Cloud">
+        </div>
+        <div class="logo-wall-item">
+          <img src="/Users/jpaine/Downloads/jack-decks-latest/assets/logos/Salesforce-Corporate-Logo-Cloud-RBG.svg" alt="Agentforce">
+        </div>
+        <div class="logo-wall-item">
+          <img src="/Users/jpaine/Downloads/jack-decks-latest/assets/logos/Salesforce-Corporate-Logo-Horiz-RGB.svg" alt="Slack">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. PULL QUOTE -->
+  <section class="alt">
+    <div class="section-inner">
+      <div class="section-eyebrow">Pull Quote</div>
+      <h2>Executive or champion voice</h2>
+      <p class="section-sub">Use for an exec sponsor statement, verbatim from a customer call, or a reference quote. Sized to command attention — not the same as a callout box.</p>
+      <div class="pull-quote">
+        <div class="pq-text">"The real opportunity here isn't just efficiency — it's that <em>we finally have a single version of the truth</em> across every customer touchpoint. That changes how we make decisions."</div>
+        <div class="pq-attribution">
+          <div class="pq-avatar">👤</div>
+          <div>
+            <div class="pq-name">Jane Smith</div>
+            <div class="pq-title">Chief Marketing Officer · Customer Name</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. NUMBERED STEPS + 4. ICON ROWS — side by side -->
+  <section>
+    <div class="section-inner">
+      <div class="section-eyebrow">Steps &amp; Icon Rows</div>
+      <h2>Sequential process + lightweight feature list</h2>
+      <p class="section-sub">Steps for "how we get there" — icon rows for "what's included". Both are lighter than a card grid when content is simpler.</p>
+      <div class="split">
+        <div>
+          <div class="section-eyebrow" style="margin-bottom:20px;">Numbered Steps</div>
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div>
+                <div class="step-title">Discovery &amp; data audit</div>
+                <div class="step-desc">Map existing data sources, identify gaps, confirm what's already connected to Salesforce.</div>
+                <div class="step-meta">⏱ 2 weeks · Joint team</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div>
+                <div class="step-title">Unified profile build</div>
+                <div class="step-desc">Ingest first-party data into Data Cloud. Define identity resolution rules and segment logic.</div>
+                <div class="step-meta">⏱ 4 weeks · SF-led</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div>
+                <div class="step-title">First activation &amp; measure</div>
+                <div class="step-desc">Run first campaign against the new segments. Instrument reporting. Define success criteria.</div>
+                <div class="step-meta">⏱ 3 weeks · Go live</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="section-eyebrow" style="margin-bottom:20px;">Icon Rows</div>
+          <div class="icon-rows">
+            <div class="icon-row">
+              <div class="icon-row-icon">🎯</div>
+              <div>
+                <div class="icon-row-title">Real-time segmentation</div>
+                <div class="icon-row-desc">Build dynamic audiences that update as customer behaviour changes — no batch delays.</div>
+              </div>
+            </div>
+            <div class="icon-row">
+              <div class="icon-row-icon">🤖</div>
+              <div>
+                <div class="icon-row-title">AI-generated content</div>
+                <div class="icon-row-desc">Draft subject lines, journey copy, and next-best-action prompts from unified profile data.</div>
+              </div>
+            </div>
+            <div class="icon-row">
+              <div class="icon-row-icon">📊</div>
+              <div>
+                <div class="icon-row-title">Unified reporting</div>
+                <div class="icon-row-desc">One dashboard across email, paid, and web — attributed back to the same customer record.</div>
+              </div>
+            </div>
+            <div class="icon-row">
+              <div class="icon-row-icon">🔒</div>
+              <div>
+                <div class="icon-row-title">Consent &amp; compliance built in</div>
+                <div class="icon-row-desc">GDPR, CCPA, and suppression lists enforced at the data layer — not bolted on at send time.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. BEFORE / AFTER TABLE -->
+  <section class="alt">
+    <div class="section-inner">
+      <div class="section-eyebrow">Before / After Table</div>
+      <h2>Current state vs. with Salesforce</h2>
+      <p class="section-sub">The most useful component in a business case. Different from a data table — the column structure is fixed: capability, today, after.</p>
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Capability</th>
+            <th class="col-before">Today</th>
+            <th class="col-after">With Salesforce</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Customer data</td>
+            <td class="before">Fragmented across 6 systems. No single profile. Manual reconciliation monthly.</td>
+            <td class="after">Unified real-time profile in Data Cloud. <span class="compare-good">↑ 360° view from day 1</span></td>
+          </tr>
+          <tr>
+            <td>Campaign activation</td>
+            <td class="before">3-week lead time to build a segment. Relies on analyst request queue.</td>
+            <td class="after">Self-serve in Marketing Cloud in hours. <span class="compare-good">↓ 90% faster</span></td>
+          </tr>
+          <tr>
+            <td>AI capability</td>
+            <td class="before">No AI in the marketing workflow. Roadmap item with no confirmed timeline.</td>
+            <td class="after">Agentforce embedded for content, journeys, and next-best-action. <span class="compare-good">↑ Live in Q3</span></td>
+          </tr>
+          <tr>
+            <td>Reporting</td>
+            <td class="before">Four separate dashboards. Quarterly business reviews rely on manual exports.</td>
+            <td class="after">One unified view, real-time, attributed across all channels. <span class="compare-good">↓ 6 hrs/week saved</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 6. CTA STRIP — always last before footer on any page -->
+  <div class="cta-strip">
+    <div class="cta-strip-eyebrow">Next step</div>
+    <h2>Ready to move forward?</h2>
+    <p>Use this strip at the bottom of any page to drive a clear next action — a meeting, a workshop, a sign-off.</p>
+    <a href="#" class="cta-btn" onclick="return false;">Book executive workshop →</a>
+    <a href="#" class="cta-btn-ghost" onclick="return false;">Download as PDF</a>
+  </div>
+
+</div><!-- /page-4 -->
+
+<!-- FOOTER -->
+<footer>
+  <strong>Salesforce × Customer Name</strong> &nbsp;·&nbsp; Prepared July 2026 &nbsp;·&nbsp; Confidential
+</footer>
+
+<script>
+  function showPage(id, link) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-tabs a').forEach(a => a.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    link.classList.add('active');
+    const tabs = Array.from(document.querySelectorAll('.nav-tabs a'));
+    const idx = tabs.indexOf(link) + 1;
+    document.getElementById('pageLabel').textContent = 'Page ' + idx + ' of ' + tabs.length;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+</body>
+</html>
