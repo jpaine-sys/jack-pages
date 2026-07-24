@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GSMA x Salesforce — Putting Unused Licences to Work</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+  :root {
+    --blue: #0176D3;
+    --navy: #032D60;
+    --teal: #06A59A;
+    --green: #2E844A;
+    --orange: #FE9339;
+    --purple: #5867E8;
+    --border: #E5E5E5;
+    --muted: #706E6B;
+    --text: #181818;
+    --r: 14px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; color: var(--text); background: #fff; font-size: 15px; line-height: 1.6; }
+
+  nav {
+    background: var(--navy);
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .nav-brand { color: white; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a { color: rgba(255,255,255,0.65); font-size: 12px; font-weight: 500; text-decoration: none; }
+  .nav-links a:hover { color: white; }
+
+  .hero {
+    background: linear-gradient(150deg, #032D60 0%, #014486 55%, #0176D3 100%);
+    padding: 80px 48px 72px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -120px; right: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(6,165,154,0.25) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .hero-inner { max-width: 820px; margin: 0 auto; position: relative; z-index: 1; }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+  }
+  .hero h1 {
+    font-size: 52px;
+    font-weight: 900;
+    line-height: 1.08;
+    letter-spacing: -2px;
+    margin-bottom: 18px;
+  }
+  .hero h1 em { color: #7DD3F8; font-style: normal; }
+  .hero p {
+    font-size: 17px;
+    color: rgba(255,255,255,0.78);
+    max-width: 580px;
+    margin-bottom: 44px;
+    line-height: 1.65;
+  }
+  .hero-numbers {
+    display: flex;
+    gap: 0;
+    width: fit-content;
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: var(--r);
+    overflow: hidden;
+    background: rgba(255,255,255,0.07);
+    backdrop-filter: blur(6px);
+  }
+  .hn { padding: 20px 36px; border-right: 1px solid rgba(255,255,255,0.14); text-align: center; }
+  .hn:last-child { border-right: none; }
+  .hn-val { font-size: 32px; font-weight: 800; letter-spacing: -1.5px; display: block; }
+  .hn-lbl { font-size: 11px; color: rgba(255,255,255,0.6); font-weight: 500; margin-top: 2px; }
+
+  section { padding: 80px 48px; }
+  section.alt { background: #F8FAFF; }
+  .section-inner { max-width: 860px; margin: 0 auto; }
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--blue);
+    margin-bottom: 10px;
+  }
+  h2 {
+    font-size: 34px;
+    font-weight: 800;
+    color: var(--navy);
+    letter-spacing: -1px;
+    line-height: 1.15;
+    margin-bottom: 10px;
+  }
+  .section-sub {
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 600px;
+    margin-bottom: 40px;
+    line-height: 1.6;
+  }
+
+  .okr-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .okr-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 26px 22px;
+    position: relative;
+    overflow: hidden;
+  }
+  .okr-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+  }
+  .okr-card.scale::before { background: var(--blue); }
+  .okr-card.commercial::before { background: var(--green); }
+  .okr-card.mission::before { background: var(--purple); }
+  .okr-tag {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+    display: inline-block;
+  }
+  .tag-scale { background: #EBF5FF; color: var(--blue); }
+  .tag-commercial { background: #EEF7F0; color: var(--green); }
+  .tag-mission { background: #F3F0FF; color: var(--purple); }
+  .okr-card h3 { font-size: 15px; font-weight: 800; color: var(--navy); margin-bottom: 10px; }
+  .okr-card p { font-size: 12px; color: var(--muted); line-height: 1.55; margin-bottom: 14px; }
+  .okr-links { display: flex; flex-direction: column; gap: 8px; }
+  .okr-link {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text);
+    line-height: 1.45;
+  }
+  .okr-link-dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+  .dot-blue { background: var(--blue); }
+  .dot-green { background: var(--green); }
+  .dot-purple { background: var(--purple); }
+  .dot-teal { background: var(--teal); }
+  .okr-link strong { font-weight: 600; color: var(--navy); }
+
+  .fund-eq {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 16px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 36px 32px;
+  }
+  .fund-block { text-align: center; padding: 8px; }
+  .fund-val { font-size: 36px; font-weight: 800; letter-spacing: -1.5px; line-height: 1; margin-bottom: 6px; }
+  .fund-label { font-size: 12px; color: var(--muted); font-weight: 500; line-height: 1.4; }
+  .fund-op { font-size: 28px; font-weight: 300; color: var(--muted); text-align: center; }
+  .fund-breakdown {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 16px;
+  }
+  .fund-item {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .fund-item-label { font-size: 13px; color: var(--text); font-weight: 500; }
+  .fund-item-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .fund-item-val { font-size: 18px; font-weight: 800; letter-spacing: -0.5px; white-space: nowrap; }
+
+  .moves-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .move-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .move-top { padding: 28px 24px 20px; flex: 1; }
+  .move-num {
+    width: 36px; height: 36px;
+    background: var(--navy);
+    color: white;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 800;
+    margin-bottom: 16px;
+  }
+  .move-card h3 { font-size: 16px; font-weight: 800; color: var(--navy); line-height: 1.3; margin-bottom: 10px; }
+  .move-card p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .move-footer {
+    border-top: 1px solid var(--border);
+    padding: 14px 24px;
+  }
+  .move-tag {
+    font-size: 11px; font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  .tag-cost { background: #EBF5FF; color: var(--blue); }
+  .tag-free { background: #EEF7F0; color: var(--green); }
+
+  .dc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .dc-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 32px 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .dc-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+  }
+  .dc-card.profiles::before { background: var(--blue); }
+  .dc-card.credits::before { background: var(--teal); }
+  .dc-headline { font-size: 42px; font-weight: 900; letter-spacing: -2px; line-height: 1; margin-bottom: 6px; }
+  .dc-subhead { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 16px; }
+  .dc-body { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 20px; }
+  .dc-list { display: flex; flex-direction: column; gap: 10px; }
+  .dc-item { display: flex; align-items: flex-start; gap: 8px; font-size: 12px; color: var(--text); line-height: 1.5; }
+  .dc-dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+  .dc-item strong { font-weight: 600; color: var(--navy); }
+
+  .outcomes-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .outcome-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 28px 22px;
+    text-align: center;
+  }
+  .outcome-icon {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    margin: 0 auto 16px;
+  }
+  .outcome-card h4 { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 8px; line-height: 1.3; }
+  .outcome-card p { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  .ba-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .ba-col { background: white; border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; }
+  .ba-header { padding: 16px 22px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--border); }
+  .ba-header.before { background: #F8F8F8; color: var(--muted); }
+  .ba-header.after { background: #EBF5FF; color: var(--blue); }
+  .ba-item { display: flex; align-items: flex-start; gap: 10px; padding: 14px 22px; border-bottom: 1px solid #F3F3F3; }
+  .ba-item:last-child { border-bottom: none; }
+  .ba-d { width: 7px; height: 7px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
+  .d-muted { background: #DDDBDA; }
+  .d-blue { background: var(--blue); }
+  .d-green { background: var(--green); }
+  .ba-text { font-size: 13px; color: var(--text); line-height: 1.5; }
+  .ba-text strong { font-weight: 700; color: var(--navy); }
+
+  .tl-wrap { background: white; border: 1px solid var(--border); border-radius: var(--r); padding: 40px 36px; }
+  .tl-track { display: flex; position: relative; margin-bottom: 32px; }
+  .tl-track::before {
+    content: '';
+    position: absolute;
+    top: 20px; left: 20px; right: 20px;
+    height: 2px;
+    background: linear-gradient(to right, var(--blue), var(--teal));
+  }
+  .tl-step { flex: 1; position: relative; z-index: 1; text-align: center; }
+  .tl-dot {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700;
+    margin: 0 auto 12px;
+    border: 3px solid white;
+  }
+  .tl-dot.now { background: var(--navy); color: white; box-shadow: 0 0 0 2px var(--navy); }
+  .tl-dot.soon { background: var(--blue); color: white; box-shadow: 0 0 0 2px var(--blue); }
+  .tl-dot.final { background: var(--teal); color: white; box-shadow: 0 0 0 2px var(--teal); }
+  .tl-date { font-size: 10px; font-weight: 800; color: var(--blue); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 4px; }
+  .tl-phase { font-size: 12px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .tl-desc { font-size: 11px; color: var(--muted); line-height: 1.45; padding: 0 4px; }
+  .tl-badge {
+    display: inline-block;
+    font-size: 10px; font-weight: 700;
+    color: var(--blue); background: #EBF5FF;
+    border-radius: 4px; padding: 2px 7px; margin-top: 6px;
+  }
+  .tl-badge.renewal { color: white; background: var(--navy); }
+  .tl-note { background: #F0F7FF; border-radius: 10px; padding: 16px 20px; font-size: 13px; color: var(--navy); text-align: center; }
+  .tl-note strong { font-weight: 700; }
+
+  .cta {
+    background: linear-gradient(135deg, #032D60 0%, #0176D3 100%);
+    border-radius: var(--r);
+    padding: 56px 48px;
+    text-align: center;
+    color: white;
+    margin: 0 48px 80px;
+  }
+  .cta h2 { font-size: 30px; font-weight: 800; letter-spacing: -0.8px; margin-bottom: 10px; color: white; }
+  .cta p { font-size: 15px; color: rgba(255,255,255,0.75); margin-bottom: 28px; }
+  .cta-btn {
+    display: inline-block;
+    background: white; color: var(--navy);
+    font-size: 14px; font-weight: 700;
+    padding: 14px 32px; border-radius: 8px;
+    text-decoration: none;
+  }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 20px 48px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px; color: var(--muted);
+  }
+  footer a { color: var(--blue); text-decoration: none; }
+
+  @media (max-width: 780px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .hero { padding: 52px 20px; }
+    .hero h1 { font-size: 32px; }
+    .hero-numbers { flex-direction: column; width: 100%; }
+    .hn { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.14); }
+    section { padding: 52px 20px; }
+    .okr-grid, .fund-breakdown, .moves-grid, .dc-grid, .outcomes-grid, .ba-grid { grid-template-columns: 1fr; }
+    .fund-eq { grid-template-columns: 1fr; }
+    .fund-op { display: none; }
+    .tl-track { flex-direction: column; gap: 20px; }
+    .tl-track::before { display: none; }
+    .tl-step { display: flex; align-items: flex-start; text-align: left; gap: 12px; }
+    .tl-dot { margin: 0; flex-shrink: 0; }
+    .cta { margin: 0 20px 52px; padding: 36px 24px; }
+    footer { padding: 16px 20px; flex-direction: column; gap: 6px; }
+    .nav-center-tabs { gap: 2px; }
+    .ntab { padding: 6px 12px; font-size: 11px; }
+    .uc-hero { padding: 40px 20px; }
+    .uc-hero h1 { font-size: 28px; }
+    .uc-section { padding: 32px 20px; }
+    .uc-card-inner { grid-template-columns: 1fr; }
+    .uc-left { border-right: none; border-bottom: 1px solid var(--border); }
+    .uc-right { grid-template-columns: 1fr; }
+    .uc-nudge { padding: 0 20px 40px; }
+    .uc-nudge-inner { flex-direction: column; text-align: center; }
+    .proposal-nudge { padding: 24px 20px; }
+    .proposal-nudge-inner { flex-direction: column; gap: 16px; text-align: center; }
+  }
+
+  /* TAB SYSTEM */
+  nav { display: grid !important; grid-template-columns: 1fr auto 1fr; }
+  .nav-links { justify-self: end; }
+  .nav-center-tabs { display: flex; background: rgba(255,255,255,0.12); border-radius: 8px; padding: 4px; gap: 2px; }
+  .ntab { padding: 7px 22px; border-radius: 6px; border: none; background: transparent; color: rgba(255,255,255,0.6); font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.15s; font-family: inherit; letter-spacing: 0.1px; }
+  .ntab.active { background: white; color: var(--navy); }
+  .ntab:hover:not(.active) { color: white; background: rgba(255,255,255,0.08); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* PROPOSAL NUDGE BANNER */
+  .proposal-nudge { background: #EBF5FF; border-top: 3px solid var(--blue); padding: 28px 48px; }
+  .proposal-nudge-inner { max-width: 860px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+  .proposal-nudge-text { font-size: 15px; font-weight: 700; color: var(--navy); }
+  .proposal-nudge-sub { font-size: 13px; color: var(--muted); margin-top: 2px; }
+  .proposal-nudge-btn { background: var(--blue); color: white; font-size: 13px; font-weight: 700; padding: 12px 24px; border-radius: 8px; border: none; cursor: pointer; font-family: inherit; white-space: nowrap; flex-shrink: 0; }
+  .proposal-nudge-btn:hover { background: #0165b8; }
+
+  /* USE CASES TAB */
+  .uc-hero { background: linear-gradient(135deg, #032D60 0%, #0e3d6b 100%); padding: 64px 48px 56px; color: white; }
+  .uc-hero-inner { max-width: 860px; margin: 0 auto; }
+  .uc-back { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 5px 14px; color: rgba(255,255,255,0.75); font-size: 11px; font-weight: 600; cursor: pointer; font-family: inherit; letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 22px; }
+  .uc-back:hover { background: rgba(255,255,255,0.18); color: white; }
+  .uc-hero h1 { font-size: 44px; font-weight: 900; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 14px; }
+  .uc-hero h1 em { color: #7DD3F8; font-style: normal; }
+  .uc-hero p { font-size: 16px; color: rgba(255,255,255,0.72); max-width: 560px; line-height: 1.65; }
+  .uc-section { max-width: 860px; margin: 0 auto; padding: 56px 48px; display: flex; flex-direction: column; gap: 24px; }
+  .uc-card { background: white; border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; }
+  .uc-card-inner { display: grid; grid-template-columns: 240px 1fr; }
+  .uc-left { padding: 32px 26px; display: flex; flex-direction: column; gap: 12px; border-right: 1px solid var(--border); background: #FAFAFA; }
+  .uc-num { font-size: 48px; font-weight: 900; letter-spacing: -2px; line-height: 1; }
+  .uc-title { font-size: 14px; font-weight: 800; color: var(--navy); line-height: 1.45; }
+  .uc-kpi-tag { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 4px 9px; border-radius: 5px; display: inline-block; margin-top: 4px; line-height: 1.4; }
+  .uc-right { padding: 32px 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  .uc-block-lbl { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .uc-block-body { font-size: 13px; color: var(--muted); line-height: 1.7; }
+  .uc-card-foot { border-top: 1px solid var(--border); padding: 13px 28px; background: #FAFAFA; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .uc-foot-label { font-size: 11px; color: var(--muted); font-weight: 500; margin-right: 4px; }
+  .uc-obj-tag { font-size: 11px; font-weight: 700; background: #EBF5FF; color: var(--blue); border-radius: 4px; padding: 3px 8px; }
+  .uc-nudge { max-width: 860px; margin: 0 auto; padding: 0 48px 64px; }
+  .uc-nudge-inner { background: linear-gradient(135deg, #032D60 0%, #0176D3 100%); border-radius: var(--r); padding: 40px; display: flex; align-items: center; justify-content: space-between; gap: 24px; color: white; }
+  .uc-nudge h3 { font-size: 20px; font-weight: 800; color: white; letter-spacing: -0.4px; margin-bottom: 6px; }
+  .uc-nudge p { font-size: 13px; color: rgba(255,255,255,0.72); max-width: 420px; line-height: 1.6; }
+  .uc-nudge-btn { background: white; color: var(--navy); font-size: 13px; font-weight: 700; padding: 12px 24px; border-radius: 8px; border: none; cursor: pointer; font-family: inherit; white-space: nowrap; flex-shrink: 0; }
+  .uc-nudge-btn:hover { background: #f0f0f0; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">
+    <svg width="22" height="16" viewBox="0 0 109 76" fill="none"><path d="M45.3 8.6C49.3 4 55 1.3 61 1.3c8 0 14.9 4.6 18.5 11.4 3.2-1.4 6.7-2.2 10.4-2.2 14.1 0 25.5 11.6 25.5 25.9s-11.4 25.9-25.5 25.9c-1.7 0-3.3-.2-4.9-.5C82 68 75.1 73 67 73c-3.5 0-6.8-.9-9.7-2.5-3.2 5.1-8.8 8.5-15.2 8.5-7.6 0-14.1-4.7-17-11.4C23.3 68.5 21 69 18.6 69 8.3 69 0 60.6 0 50.1c0-7.3 4.1-13.7 10.1-17-1.1-2.5-1.7-5.2-1.7-8.1C8.4 12.5 17 3.7 27.7 3.7c6.8 0 12.8 3.4 16.4 8.5.3-.5.7-1 1.2-1.5-.7-.7-.7-1.4 0-2.1z" fill="white"/></svg>
+    GSMA x Salesforce
+  </div>
+  <div class="nav-center-tabs">
+    <button class="ntab active" onclick="switchTab('proposal', this)">The Proposal</button>
+    <button class="ntab" onclick="switchTab('usecases', this)">Use Cases</button>
+  </div>
+  <div class="nav-links" id="proposal-nav-links">
+  </div>
+</nav>
+
+<div class="tab-panel active" id="panel-proposal">
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="pill">
+      <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="6" fill="rgba(255,255,255,0.4)"/><path d="M4 6l1.5 1.5L8 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Marketing Transformation · GSMA x Salesforce · July 2026
+    </div>
+    <h1>Putting unused<br>licences <em>to work.</em></h1>
+    <p>Right-sizing the GSMA contract releases budget that has already been paid for. That budget funds access to Data360 and the upgrade to MC Next, with zero net additional spend.</p>
+    <div class="hero-numbers">
+      <div class="hn">
+        <span class="hn-val">£0</span>
+        <span class="hn-lbl">Net additional spend</span>
+      </div>
+      <div class="hn">
+        <span class="hn-val">3</span>
+        <span class="hn-lbl">Suggested changes</span>
+      </div>
+      <div class="hn">
+        <span class="hn-val">6-8 wks</span>
+        <span class="hn-lbl">To live unified data</span>
+      </div>
+      <div class="hn">
+        <span class="hn-val">Jan 2027</span>
+        <span class="hn-lbl">Renewal date</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section id="okrs">
+  <div class="section-inner">
+    <div class="section-label">Key OKRs impacted</div>
+    <h2>Where this moves the needle</h2>
+    <p class="section-sub">GSMA shared its OKRs with the Salesforce team in June. The three suggested changes below map directly to them.</p>
+
+    <div class="okr-grid">
+
+      <div class="okr-card scale">
+        <div class="okr-tag tag-scale">Scale and Efficiency · OBJ01-02</div>
+        <h3>Standardise tools and complete the operating model transformation</h3>
+        <p>GSMA currently runs 11+ disparate systems, 1,000+ manual web forms, and has one person processing all data requests. The foundation needs to change before anything else can.</p>
+        <div class="okr-links">
+          <div class="okr-link"><div class="okr-link-dot dot-blue"></div><div><strong>Data360</strong> creates a single activation layer across all 11 source systems, eliminating manual uploads and data duplication</div></div>
+          <div class="okr-link"><div class="okr-link-dot dot-blue"></div><div><strong>MCE+</strong> brings Agentforce Marketing agents that automate campaign creation, removing the single-person bottleneck entirely</div></div>
+          <div class="okr-link"><div class="okr-link-dot dot-blue"></div><div><strong>Frequency capping</strong> delivers global send governance across all business units so contacts no longer receive 7-8 emails a day from different teams</div></div>
+        </div>
+      </div>
+
+      <div class="okr-card commercial">
+        <div class="okr-tag tag-commercial">Commercial Success · OBJ03-04</div>
+        <h3>70% of priority journeys on CRM data. Better lead conversion.</h3>
+        <p>Today, most of GSMA's marketing is broad email blasts with no behavioural signals, no personalisation, and no way to demonstrate ROI to the business.</p>
+        <div class="okr-links">
+          <div class="okr-link"><div class="okr-link-dot dot-green"></div><div><strong>MCP+</strong> delivers real-time personalisation driven by unified member profiles, putting the right content in front of the right person based on actual behaviour</div></div>
+          <div class="okr-link"><div class="okr-link-dot dot-green"></div><div><strong>Behavioural audience targeting</strong> enables abandoned event registration triggers, intent-based automation, and web personalisation across GSMA's multi-domain estate</div></div>
+          <div class="okr-link"><div class="okr-link-dot dot-green"></div><div><strong>30% reduction target</strong> in unplanned email sends via cross-BU frequency capping, protecting database health and GDPR compliance</div></div>
+        </div>
+      </div>
+
+      <div class="okr-card mission">
+        <div class="okr-tag tag-mission">Mission Delivery · OBJ05-06</div>
+        <h3>Strengthen GSMA's global platform and amplify working group reach</h3>
+        <p>GSMA's events and working groups are its most valuable assets. Marketing needs to drive measurable engagement and provable reach, not just send volume.</p>
+        <div class="okr-links">
+          <div class="okr-link"><div class="okr-link-dot dot-purple"></div><div><strong>Lookalike audience activation</strong> lets GSMA identify and reach prospects who match its best members, pushing directly to Meta, Google, and LinkedIn from Data360</div></div>
+          <div class="okr-link"><div class="okr-link-dot dot-purple"></div><div><strong>Event journey automation</strong> powers abandoned registration triggers and post-event nurture for MWC Doha and beyond</div></div>
+          <div class="okr-link"><div class="okr-link-dot dot-purple"></div><div><strong>Clean, provable engagement data</strong> gives the marketing team credibility internally. Bot activity currently masks real results and prevents any ROI conversation.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="funding" class="alt">
+  <div class="section-inner">
+    <div class="section-label">The commercial construct</div>
+    <h2>The budget is already there</h2>
+    <p class="section-sub">GSMA is paying for contact and advertising capacity it is not using. Releasing it funds access to trial and adopt Data360.</p>
+
+    <div class="fund-eq">
+      <div class="fund-block">
+        <div class="fund-val" style="color:var(--green);">~£62k</div>
+        <div class="fund-label">Released by right-sizing<br>unused capacity</div>
+      </div>
+      <div class="fund-op">reinvested into</div>
+      <div class="fund-block">
+        <div class="fund-val" style="color:var(--blue);">Data360</div>
+        <div class="fund-label">Access to trial and adopt the platform<br>250k profiles and 800k Flex Credits</div>
+      </div>
+    </div>
+
+    <div class="fund-breakdown">
+      <div class="fund-item">
+        <div>
+          <div class="fund-item-label">Reduce contacts: 4.2M to 2M</div>
+          <div class="fund-item-sub">Currently using 1.7M. A 2M cap retains a comfortable growth buffer.</div>
+        </div>
+        <div class="fund-item-val" style="color:var(--green);">~£53k</div>
+      </div>
+      <div class="fund-item">
+        <div>
+          <div class="fund-item-label">Remove unused MC Advertising</div>
+          <div class="fund-item-sub">Professional and Contacts lines not currently in use</div>
+        </div>
+        <div class="fund-item-val" style="color:var(--green);">~£9k</div>
+      </div>
+      <div class="fund-item">
+        <div>
+          <div class="fund-item-label">Data360: 250k unified member profiles</div>
+          <div class="fund-item-sub">One deduplicated record per person across all 11+ systems</div>
+        </div>
+        <div class="fund-item-val" style="color:var(--blue);">~£33k</div>
+      </div>
+      <div class="fund-item">
+        <div>
+          <div class="fund-item-label">Data360: 800k Flex Credits</div>
+          <div class="fund-item-sub">Powers real-time personalisation, Agentforce, and AI workloads</div>
+        </div>
+        <div class="fund-item-val" style="color:var(--blue);">~£27k</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="moves">
+  <div class="section-inner">
+    <div class="section-label">The proposed solution</div>
+    <h2>Three suggested changes</h2>
+    <p class="section-sub">All three happen simultaneously at the January renewal with no phased negotiations and no future dependencies.</p>
+
+    <div class="moves-grid">
+      <div class="move-card">
+        <div class="move-top">
+          <div class="move-num">1</div>
+          <h3>Right-size the contract, contacts and reinvest into Data360</h3>
+          <p>Reduce the contact entitlement from 4.2M to 2M (GSMA is currently using 1.7M) and remove unused MC Advertising lines. Reinvest that budget into Data360 to give GSMA access to 250k unified member profiles and 800k Flex Credits from day of signing.</p>
+        </div>
+        <div class="move-footer">
+          <span class="move-tag tag-cost">Self-funded at ~£60k</span>
+        </div>
+      </div>
+
+      <div class="move-card">
+        <div class="move-top">
+          <div class="move-num">2</div>
+          <h3>Add Marketing Cloud Personalisation+ via the MCP+ skew</h3>
+          <p>Through the MCP+ skew, GSMA gets the new MC Next personalisation platform natively connected to Data360. Real-time, AI-driven personalisation on GSMA's website and campaigns, driven by live member profiles rather than static list segments. Trevor's existing live campaigns continue uninterrupted.</p>
+        </div>
+        <div class="move-footer">
+          <span class="move-tag tag-free">At renewal, no extra cost</span>
+        </div>
+      </div>
+
+      <div class="move-card">
+        <div class="move-top">
+          <div class="move-num">3</div>
+          <h3>Add Marketing Cloud Next via the MCE+ skew</h3>
+          <p>Through the MCE+ skew, GSMA gets full MC Next platform access from signing. This unlocks Agentforce Marketing agents that can autonomously build audiences, personalise journeys, and optimise campaigns using Data360 profiles, directly addressing the operational stagnation and single-person dependency.</p>
+        </div>
+        <div class="move-footer">
+          <span class="move-tag tag-free">At renewal, no extra cost</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="data360" class="alt">
+  <div class="section-inner">
+    <div class="section-label">What the proposal includes</div>
+    <h2>What moves into the contract</h2>
+    <p class="section-sub">The proposal moves GSMA's contact entitlement to 250k unified member profiles and adds 800k Flex Credits. Here is what each one enables.</p>
+
+    <div class="dc-grid">
+
+      <div class="dc-card profiles">
+        <div class="dc-headline" style="color:var(--blue);">250k</div>
+        <div class="dc-subhead">Unified Member Profiles</div>
+        <div class="dc-body">A single, deduplicated profile for every member and contact built from every source system GSMA runs. Website behaviour, paid media signals, CRM records, and member gateway data all resolved into one consistent record per person.</div>
+        <div class="dc-list">
+          <div class="dc-item"><div class="dc-dot dot-blue"></div><div>Pulls from all 11+ source systems including CRM, web, events, paid media, and member portals into one unified record</div></div>
+          <div class="dc-item"><div class="dc-dot dot-blue"></div><div>Eliminates the manual spreadsheet and CSV upload process that currently creates duplication and data delays</div></div>
+          <div class="dc-item"><div class="dc-dot dot-blue"></div><div>Gives MCP+ and MCE+ the real member data they need to personalise at scale rather than relying on static list segments</div></div>
+          <div class="dc-item"><div class="dc-dot dot-blue"></div><div>Provides the clean data model required to implement cross-BU frequency capping and reach the 30% send reduction target</div></div>
+        </div>
+      </div>
+
+      <div class="dc-card credits">
+        <div class="dc-headline" style="color:var(--teal);">800k</div>
+        <div class="dc-subhead">Flex Credits</div>
+        <div class="dc-body">Flex Credits are the fuel for everything that runs on top of the unified profiles. They power real-time queries, AI decisions, Agentforce tasks, and audience activation to paid channels including Meta, Google, and LinkedIn.</div>
+        <div class="dc-list">
+          <div class="dc-item"><div class="dc-dot dot-teal"></div><div>Powers Agentforce Marketing agents autonomously building and optimising campaigns without manual input from the team</div></div>
+          <div class="dc-item"><div class="dc-dot dot-teal"></div><div>Enables real-time personalisation decisions by MCP+ as each visitor lands on a GSMA web property</div></div>
+          <div class="dc-item"><div class="dc-dot dot-teal"></div><div>Runs the audience activation pipelines that push lookalike segments directly to paid media channels from Data360</div></div>
+          <div class="dc-item"><div class="dc-dot dot-teal"></div><div>Supports Einstein AI features including predictive scoring, send-time optimisation, and content recommendations</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="outcomes">
+  <div class="section-inner">
+    <div class="section-label">What this enables for GSMA</div>
+    <h2>Capabilities that switch on as Data360 is adopted</h2>
+    <p class="section-sub">As GSMA brings website data, paid media, CRM, and member gateway data together, these four capabilities are progressively enabled across the marketing journey.</p>
+
+    <div class="outcomes-grid">
+      <div class="outcome-card">
+        <div class="outcome-icon" style="background:#EBF5FF;">🔗</div>
+        <h4>A single view of every member</h4>
+        <p>Website behaviour, paid media signals, CRM records, and member gateway data resolved into one unified profile per person, always current across all 11+ systems.</p>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-icon" style="background:#EEF7F0;">🌐</div>
+        <h4>Activate across the full marketing journey</h4>
+        <p>Website data, paid media, CRM, and member gateway data brought together and activated across every touchpoint, from first visit through to event registration and renewal.</p>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-icon" style="background:#F3F0FF;">🔌</div>
+        <h4>Activate Fabric and external data</h4>
+        <p>Ability to plug in external data sources and Salesforce Fabric data, enriching member profiles with third-party signals and activating them across campaigns and paid channels.</p>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-icon" style="background:#FFF8EC;">🤖</div>
+        <h4>AI-powered campaign execution</h4>
+        <p>Agentforce Marketing agents autonomously build audiences, personalise journeys, and optimise content, removing the operational bottleneck and single-person dependency for good.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:40px;">
+      <p style="font-size:13px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:16px;">Today vs After this proposal</p>
+      <div class="ba-grid">
+        <div class="ba-col">
+          <div class="ba-header before">Today</div>
+          <div class="ba-item"><div class="ba-d d-muted"></div><div class="ba-text">Members receiving 7-8 uncoordinated emails per day from different teams, causing audience fatigue and GDPR risk</div></div>
+          <div class="ba-item"><div class="ba-d d-muted"></div><div class="ba-text">Data fragmented across 11+ systems with no unified view of any individual member</div></div>
+          <div class="ba-item"><div class="ba-d d-muted"></div><div class="ba-text">Manual data requests funnelled through one person, a single point of failure for the whole team</div></div>
+          <div class="ba-item"><div class="ba-d d-muted"></div><div class="ba-text">Broad email blasts with no behavioural targeting and no way to demonstrate ROI internally</div></div>
+          <div class="ba-item"><div class="ba-d d-muted"></div><div class="ba-text">Bot activity masks real engagement so marketing cannot prove its impact to the business</div></div>
+        </div>
+        <div class="ba-col">
+          <div class="ba-header after">After this proposal</div>
+          <div class="ba-item"><div class="ba-d d-blue"></div><div class="ba-text"><strong>Global frequency cap</strong> provides one governed send policy across all BUs with no more uncoordinated emails</div></div>
+          <div class="ba-item"><div class="ba-d d-blue"></div><div class="ba-text"><strong>Unified member profiles</strong> give one source of truth across website, paid media, CRM, and all 11 other systems</div></div>
+          <div class="ba-item"><div class="ba-d d-green"></div><div class="ba-text"><strong>Agentforce agents</strong> handle autonomous campaign execution and remove the manual bottleneck entirely</div></div>
+          <div class="ba-item"><div class="ba-d d-green"></div><div class="ba-text"><strong>Real-time behavioural targeting</strong> powers abandoned registration triggers, intent signals, and personalised web journeys</div></div>
+          <div class="ba-item"><div class="ba-d d-green"></div><div class="ba-text"><strong>Clean, provable engagement data</strong> gives marketing the credibility it needs to demonstrate ROI to the business</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="timeline">
+  <div class="section-inner">
+    <div class="section-label">Between now and January</div>
+    <h2>Adoption timeline</h2>
+    <p class="section-sub">How GSMA gets from scoping to fully using Data360, Marketing Cloud Personalisation, and Marketing Cloud Next before the January renewal date.</p>
+
+    <div class="tl-wrap">
+      <div class="tl-track">
+
+        <div class="tl-step">
+          <div class="tl-dot now">NOW</div>
+          <div class="tl-date">July 2026</div>
+          <div class="tl-phase">Data360 scoped and SI selected</div>
+          <div class="tl-desc">Data360 architecture agreed with Fluency X. CRM and member gateway identified as first data sources to connect.</div>
+          <div class="tl-badge">In progress</div>
+        </div>
+
+        <div class="tl-step">
+          <div class="tl-dot soon">2</div>
+          <div class="tl-date">Aug - Sep 2026</div>
+          <div class="tl-phase">First data sources connected</div>
+          <div class="tl-desc">Data360 provisioned. CRM and member gateway data flowing. First unified member profiles created. Website data ingestion begins.</div>
+          <div class="tl-badge">Data360 live</div>
+        </div>
+
+        <div class="tl-step">
+          <div class="tl-dot soon">3</div>
+          <div class="tl-date">Oct - Nov 2026</div>
+          <div class="tl-phase">Personalisation and frequency cap active</div>
+          <div class="tl-desc">MCP+ personalisation live on GSMA web properties. Paid media audiences activated. Global frequency cap enforced across all BUs.</div>
+          <div class="tl-badge">MCP+ active</div>
+        </div>
+
+        <div class="tl-step">
+          <div class="tl-dot soon">4</div>
+          <div class="tl-date">Nov - Dec 2026</div>
+          <div class="tl-phase">Agentforce agents running</div>
+          <div class="tl-desc">MCE+ fully adopted. First Agentforce Marketing agents building audiences and running journeys autonomously. Behavioural triggers live.</div>
+          <div class="tl-badge">MCE+ active</div>
+        </div>
+
+        <div class="tl-step">
+          <div class="tl-dot final">JAN</div>
+          <div class="tl-date">January 2027</div>
+          <div class="tl-phase">Fully adopted at renewal</div>
+          <div class="tl-desc">GSMA renewing with Data360, MCP+, and MCE+ all in active use. Unified profiles live. Agentforce campaigns running. Clean data model established.</div>
+          <div class="tl-badge renewal">Renewal date</div>
+        </div>
+
+      </div>
+      <div class="tl-note">
+        The goal is for GSMA to arrive at the January renewal already using the platform, not just signing up for it.
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="cta">
+  <h2>I hope this is helpful</h2>
+  <p>Happy to walk through this in more detail with the team.</p>
+  <a class="cta-btn" href="mailto:jpaine@salesforce.com?subject=GSMA x Salesforce - Discussion">
+    Get in touch with the Salesforce team
+  </a>
+</div>
+
+<footer>
+  <span>Prepared for GSMA by Salesforce · July 2026</span>
+  <span>Questions: <a href="mailto:jpaine@salesforce.com">jpaine@salesforce.com</a></span>
+</footer>
+
+</div><!-- /panel-proposal -->
+
+<!-- ============================================================ -->
+<!-- USE CASES PANEL                                              -->
+<!-- ============================================================ -->
+<div id="panel-usecases" class="tab-panel">
+
+  <div class="uc-hero">
+    <div class="uc-hero-inner">
+      <button class="uc-back" onclick="switchTab('proposal', document.querySelectorAll('.ntab')[0])">
+        ← Back to the proposal
+      </button>
+      <h1>Six <em>quick-start</em><br>use cases for GSMA</h1>
+      <div style="display:flex; gap:24px; margin-bottom:20px; flex-wrap:wrap;">
+        <div style="background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.2); border-radius:10px; padding:14px 20px; text-align:center;">
+          <div style="font-size:28px; font-weight:900; letter-spacing:-1px; line-height:1;">6</div>
+          <div style="font-size:11px; color:rgba(255,255,255,0.6); margin-top:2px;">Use cases</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.2); border-radius:10px; padding:14px 20px; text-align:center;">
+          <div style="font-size:28px; font-weight:900; letter-spacing:-1px; line-height:1;">£0</div>
+          <div style="font-size:11px; color:rgba(255,255,255,0.6); margin-top:2px;">Additional budget</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.2); border-radius:10px; padding:14px 20px; text-align:center;">
+          <div style="font-size:28px; font-weight:900; letter-spacing:-1px; line-height:1;">Jan 27</div>
+          <div style="font-size:11px; color:rgba(255,255,255,0.6); margin-top:2px;">All live by renewal</div>
+        </div>
+      </div>
+      <p>Each use case is scoped to be live before the January renewal. No complex configuration, no dependency on a full Data360 buildout. Sequenced to deliver visible value fast and build internal confidence.</p>
+    </div>
+  </div>
+
+  <!-- NUDGE BANNER -->
+  <div class="proposal-nudge">
+    <div class="proposal-nudge-inner">
+      <div>
+        <div class="proposal-nudge-text">These use cases sit inside the proposal</div>
+        <div class="proposal-nudge-sub">They are funded by the same right-sizing exercise. No additional budget required.</div>
+      </div>
+      <button class="proposal-nudge-btn" onclick="switchTab('proposal', document.querySelectorAll('.ntab')[0])">See the full proposal</button>
+    </div>
+  </div>
+
+  <div class="uc-section">
+
+    <!-- USE CASE 1 -->
+    <div class="uc-card">
+      <div class="uc-card-inner">
+        <div class="uc-left">
+          <div class="uc-num" style="color:var(--blue);">01</div>
+          <div class="uc-title">Unified Data Ingestion</div>
+          <div style="font-size:12px; color:var(--muted); line-height:1.5;">Replacing manual uploads with automated, centralised data intake</div>
+          <div class="uc-kpi-tag" style="background:#EBF5FF; color:var(--blue);">90-100% downstream tracking</div>
+        </div>
+        <div class="uc-right">
+          <div>
+            <div class="uc-block-lbl" style="color:var(--muted);">The problem today</div>
+            <div class="uc-block-body">Post-event vendor and pavilion scan data is processed manually via spreadsheets. Teams create duplicate records so separate internal teams can each claim lead ownership, meaning the same contact appears multiple times across different systems with no resolution.</div>
+          </div>
+          <div>
+            <div class="uc-block-lbl" style="color:var(--blue);">The simple fix</div>
+            <div class="uc-block-body">Use Data360 strictly to ingest scan spreadsheets automatically. Rather than configuring complex deduplication logic upfront, centralise data intake at source, bypassing the manual tidying entirely and giving every downstream journey a clean starting point.</div>
+          </div>
+        </div>
+      </div>
+      <div class="uc-card-foot">
+        <span class="uc-foot-label">OKR alignment:</span>
+        <span class="uc-obj-tag">OBJ01 Holistic strategy</span>
+        <span class="uc-obj-tag">OBJ02 Automate processes</span>
+      </div>
+    </div>
+
+    <!-- USE CASE 2 -->
+    <div class="uc-card">
+      <div class="uc-card-inner">
+        <div class="uc-left">
+          <div class="uc-num" style="color:var(--green);">02</div>
+          <div class="uc-title">Baseline Send Visibility</div>
+          <div style="font-size:12px; color:var(--muted); line-height:1.5;">A send log that acts as a coordination dashboard before full governance is in place</div>
+          <div class="uc-kpi-tag" style="background:#EEF7F0; color:var(--green);">30% reduction in unplanned sends</div>
+        </div>
+        <div class="uc-right">
+          <div>
+            <div class="uc-block-lbl" style="color:var(--muted);">The problem today</div>
+            <div class="uc-block-body">Contacts receive 7-8 uncoordinated emails a day from different GSMA teams. Full frequency cap automation would stall because capping rules, priority rankings, and governance ownership across BUs are not yet defined.</div>
+          </div>
+          <div>
+            <div class="uc-block-lbl" style="color:var(--green);">The simple fix</div>
+            <div class="uc-block-body">Use Data360 to ingest all BU send histories into a single centralised Send Log. Do not enforce blocking logic yet. Treat this as an operational "thermometer" so teams can visually coordinate send timing before executing, reducing clashes through awareness rather than automation.</div>
+          </div>
+        </div>
+      </div>
+      <div class="uc-card-foot">
+        <span class="uc-foot-label">OKR alignment:</span>
+        <span class="uc-obj-tag">OBJ01 30% send reduction</span>
+        <span class="uc-obj-tag">OBJ03 Optimised campaigns</span>
+      </div>
+    </div>
+
+    <!-- USE CASE 3 -->
+    <div class="uc-card">
+      <div class="uc-card-inner">
+        <div class="uc-left">
+          <div class="uc-num" style="color:var(--teal);">03</div>
+          <div class="uc-title">Basic Digital Onboarding Journeys</div>
+          <div style="font-size:12px; color:var(--muted); line-height:1.5;">Replacing manual welcome campaign blasts with a single automated trigger</div>
+          <div class="uc-kpi-tag" style="background:#E6F9F8; color:var(--teal);">25% conversion uplift on priority journeys</div>
+        </div>
+        <div class="uc-right">
+          <div>
+            <div class="uc-block-lbl" style="color:var(--muted);">The problem today</div>
+            <div class="uc-block-body">65-75% of GSMA's current marketing effort is spent on manual email blasts rather than structured engagement. New members have no automated welcome or onboarding sequence, entry into any journey relies on manual list work.</div>
+          </div>
+          <div>
+            <div class="uc-block-lbl" style="color:var(--teal);">The simple fix</div>
+            <div class="uc-block-body">Replace rigid campaign blasts with a single linear automated welcome track for new members. The journey fires uniformly upon a subscription status change in the source data, requiring zero ongoing manual administration once live.</div>
+          </div>
+        </div>
+      </div>
+      <div class="uc-card-foot">
+        <span class="uc-foot-label">OKR alignment:</span>
+        <span class="uc-obj-tag">OBJ03 MQL conversion</span>
+        <span class="uc-obj-tag">OBJ04 Personalised experiences</span>
+        <span class="uc-obj-tag">OBJ05 Community growth</span>
+      </div>
+    </div>
+
+    <!-- USE CASE 4 -->
+    <div class="uc-card">
+      <div class="uc-card-inner">
+        <div class="uc-left">
+          <div class="uc-num" style="color:var(--purple);">04</div>
+          <div class="uc-title">Commercial and Paid Media Sync</div>
+          <div style="font-size:12px; color:var(--muted); line-height:1.5;">Stopping ad spend on leads already in a sales cycle</div>
+          <div class="uc-kpi-tag" style="background:#F3F0FF; color:var(--purple);">+20% marketing-influenced pipeline</div>
+        </div>
+        <div class="uc-right">
+          <div>
+            <div class="uc-block-lbl" style="color:var(--muted);">The problem today</div>
+            <div class="uc-block-body">Commercial data sits siloed in Sales Cloud while paid advertising on Google and Meta runs independently, optimised for lead quantity rather than pipeline value. Leads already in an active sales cycle continue to receive generic acquisition ads.</div>
+          </div>
+          <div>
+            <div class="uc-block-lbl" style="color:var(--purple);">The simple fix</div>
+            <div class="uc-block-body">Use Data360 to sync active opportunity stages from Sales Cloud directly with paid ad platforms. When a lead converts to an active sales cycle, Data360 automatically pushes them to a suppression list, instantly stopping wasteful acquisition ads without requiring custom scoring algorithms.</div>
+          </div>
+        </div>
+      </div>
+      <div class="uc-card-foot">
+        <span class="uc-foot-label">OKR alignment:</span>
+        <span class="uc-obj-tag">OBJ03 Pipeline value</span>
+        <span class="uc-obj-tag">OBJ04 Personalised experiences</span>
+      </div>
+    </div>
+
+    <!-- USE CASE 5 -->
+    <div class="uc-card">
+      <div class="uc-card-inner">
+        <div class="uc-left">
+          <div class="uc-num" style="color:var(--orange);">05</div>
+          <div class="uc-title">Simple Propensity Score: AI Membership Churn Prediction</div>
+          <div style="font-size:12px; color:var(--muted); line-height:1.5;">Flagging at-risk members before renewal using out-of-the-box AI</div>
+          <div class="uc-kpi-tag" style="background:#FFF8EC; color:var(--orange);">10% uplift in digital engagement</div>
+        </div>
+        <div class="uc-right">
+          <div>
+            <div class="uc-block-lbl" style="color:var(--muted);">The problem today</div>
+            <div class="uc-block-body">There is a complete lack of reporting on member usage data. The account team cannot proactively flag drop-off risks or demonstrate ongoing membership value before standard annual renewal cycles. At-risk members go undetected until it is too late.</div>
+          </div>
+          <div>
+            <div class="uc-block-lbl" style="color:var(--orange);">The simple fix</div>
+            <div class="uc-block-body">Use native AI Studio features to build an out-of-the-box propensity model on two existing data points: Member Gateway login recency and working group attendance records. The model automatically flags members with dropping activity as "At Risk" and drops them into re-engagement loops months before renewal, requiring no custom scoring build.</div>
+          </div>
+        </div>
+      </div>
+      <div class="uc-card-foot">
+        <span class="uc-foot-label">OKR alignment:</span>
+        <span class="uc-obj-tag">OBJ03 MQL conversion</span>
+        <span class="uc-obj-tag">OBJ05 Community growth</span>
+        <span class="uc-obj-tag">OBJ06 Member engagement</span>
+      </div>
+    </div>
+
+    <!-- USE CASE 6 -->
+    <div class="uc-card">
+      <div class="uc-card-inner">
+        <div class="uc-left">
+          <div class="uc-num" style="color:var(--teal);">06</div>
+          <div class="uc-title">Natural Language Segment Creation</div>
+          <div style="font-size:12px; color:var(--muted); line-height:1.5;">Cutting a 3-week manual bottleneck down to minutes</div>
+          <div class="uc-kpi-tag" style="background:#E6F9F8; color:var(--teal);">Operational velocity and decentralised marketing</div>
+        </div>
+        <div class="uc-right">
+          <div>
+            <div class="uc-block-lbl" style="color:var(--muted);">The problem today</div>
+            <div class="uc-block-body">A 15-person marketing operations team is consumed by manual data extension requests. Marketers do not use the platform directly and building standard audience segments manually takes up to three weeks. Strategic campaign decisions are blocked by a technical queue.</div>
+          </div>
+          <div>
+            <div class="uc-block-lbl" style="color:var(--teal);">The simple fix</div>
+            <div class="uc-block-body">Once the unified data profile is live, marketers use natural language segment building inside Data Cloud to describe their target audience in plain text. Data extensions are generated instantly. The three-week bottleneck is removed and marketers can make and execute strategic decisions without raising a technical request.</div>
+          </div>
+        </div>
+      </div>
+      <div class="uc-card-foot">
+        <span class="uc-foot-label">OKR alignment:</span>
+        <span class="uc-obj-tag">OBJ01 Holistic strategy</span>
+        <span class="uc-obj-tag">OBJ02 Automate processes</span>
+        <span class="uc-obj-tag">OBJ03 Optimised campaigns</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CTA at the bottom of use cases -->
+  <div class="uc-nudge">
+    <div class="uc-nudge-inner">
+      <div>
+        <h3>I hope this is helpful</h3>
+        <p>Happy to walk through the use cases or the full proposal in more detail with the team at GSMA.</p>
+      </div>
+      <button class="uc-nudge-btn" onclick="switchTab('proposal', document.querySelectorAll('.ntab')[0])">Back to the full proposal</button>
+    </div>
+  </div>
+
+  <footer style="background:white;">
+    <span>Prepared for GSMA by Salesforce · July 2026</span>
+    <span>Questions: <a href="mailto:jpaine@salesforce.com">jpaine@salesforce.com</a></span>
+  </footer>
+
+</div><!-- /panel-usecases -->
+
+<script>
+function switchTab(tab, btn) {
+  document.querySelectorAll('.ntab').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+  document.getElementById('panel-' + tab).classList.add('active');
+  var navLinks = document.getElementById('proposal-nav-links');
+  if (navLinks) navLinks.style.visibility = tab === 'proposal' ? 'visible' : 'hidden';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
