@@ -130,9 +130,54 @@ footer p{font-size:12px;color:rgba(255,255,255,0.3)}
   footer{flex-direction:column;gap:10px;text-align:center}.cta-strip{padding:44px 22px}
 }
 @media print{nav{position:relative}.page{display:block!important}.hero-dark,.section-dark{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+.modal-overlay{position:fixed;inset:0;z-index:999;background:rgba(2,15,40,0.82);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:24px}
+.modal-card{background:#fff;border-radius:20px;max-width:520px;width:100%;padding:40px 40px 36px;position:relative;box-shadow:0 24px 80px rgba(2,15,40,0.4);animation:modal-in .28s ease}
+@keyframes modal-in{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border:none;background:rgba(3,45,96,0.07);border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--muted);transition:background .15s}
+.modal-close:hover{background:rgba(3,45,96,0.14)}
+.modal-eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--blue);margin-bottom:12px}
+.modal-card h2{font-size:22px;font-weight:900;letter-spacing:-0.03em;color:var(--navy);margin-bottom:16px;line-height:1.2}
+.modal-card p{font-size:14.5px;color:var(--muted);line-height:1.65;margin-bottom:12px}
+.modal-card p strong{color:var(--navy)}
+.modal-divider{height:1px;background:var(--border);margin:24px 0}
+.modal-footer{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.modal-sig{font-size:13px;color:var(--muted);line-height:1.4}
+.modal-sig strong{display:block;color:var(--navy);font-weight:700}
+.modal-btn{background:var(--blue);color:#fff;border:none;border-radius:10px;padding:11px 22px;font-size:13.5px;font-weight:700;cursor:pointer;transition:background .15s;white-space:nowrap;font-family:inherit}
+.modal-btn:hover{background:#0165b8}
+.modal-overlay{position:fixed;inset:0;z-index:999;background:rgba(2,15,40,0.82);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:24px}
+.modal-card{background:#fff;border-radius:20px;max-width:520px;width:100%;padding:40px 40px 36px;position:relative;box-shadow:0 24px 80px rgba(2,15,40,0.4);animation:modal-in .28s ease}
+@keyframes modal-in{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border:none;background:rgba(3,45,96,0.07);border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--muted);transition:background .15s}
+.modal-close:hover{background:rgba(3,45,96,0.14)}
+.modal-eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--blue);margin-bottom:12px}
+.modal-card h2{font-size:22px;font-weight:900;letter-spacing:-0.03em;color:var(--navy);margin-bottom:16px;line-height:1.2}
+.modal-card p{font-size:14.5px;color:var(--muted);line-height:1.65;margin-bottom:12px}
+.modal-card p strong{color:var(--navy)}
+.modal-divider{height:1px;background:var(--border);margin:24px 0}
+.modal-footer{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.modal-sig{font-size:13px;color:var(--muted);line-height:1.4}
+.modal-sig strong{display:block;color:var(--navy);font-weight:700}
+.modal-btn{background:var(--blue);color:#fff;border:none;border-radius:10px;padding:11px 22px;font-size:13.5px;font-weight:700;cursor:pointer;transition:background .15s;white-space:nowrap;font-family:inherit}
+.modal-btn:hover{background:#0165b8}
 </style>
 </head>
 <body>
+<div class="modal-overlay" id="modal">
+  <div class="modal-card">
+    <button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
+    <div class="modal-eyebrow">Salesforce · CitySprint</div>
+    <h2>Thanks for the partnership.</h2>
+    <p>Based on what we heard during your visit, we believe there's a <strong>£3.3m annual opportunity</strong> for CitySprint — through better retention, unlocking revenue growth in sales, and reducing service pressure.</p>
+    <p>We'd love to build the business case together. The numbers here are based on industry benchmarks — your data will sharpen them significantly.</p>
+    <p>Inside you'll find what we heard across your business, our proposed approach, the value case, and the specific data points we need from you to make the August board presentation board-ready.</p>
+    <div class="modal-divider"></div>
+    <div class="modal-footer">
+      <div class="modal-sig"><strong>Jack Paine</strong>Account Executive, Salesforce</div>
+      <button class="modal-btn" onclick="closeModal()">Let's take a look →</button>
+    </div>
+  </div>
+</div>
 
 <nav>
   <div class="nav-logo">
@@ -612,6 +657,12 @@ footer p{font-size:12px;color:rgba(255,255,255,0.3)}
 </div>
 
 <script>
+function closeModal(){
+  const m=document.getElementById('modal');
+  m.style.transition='opacity .2s';
+  m.style.opacity='0';
+  setTimeout(()=>m.style.display='none',200);
+}
 function showPage(id,link){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
