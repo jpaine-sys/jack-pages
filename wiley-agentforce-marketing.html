@@ -188,7 +188,7 @@ footer p{font-size:12px;color:rgba(255,255,255,0.45)}
   .custom-rows{grid-template-columns:1fr}
   nav{padding:0 12px}
   .nav-tabs a{padding:6px 8px;font-size:11px}
-  section,footer,.hero-dark,.hero-light,.cta-strip{padding-left:20px;padding-right:20px}
+  section,footer.hero-dark.hero-light.cta-strip{padding-left:20px;padding-right:20px}
 }
 
 /* Agent detail modal */
@@ -783,7 +783,7 @@ const AGENTS = {
       'Handles replies, qualifies interest, and routes to humans when ready',
       'Books meetings automatically into calendar with full context attached'
     ],
-    wiley: 'Relevant for Wiley\u2019s academic and B2B channels \u2014 SDR Agent can work alongside your sales team to nurture institutional accounts without adding headcount.'
+    wiley: 'Relevant for Wiley\u2019s academic and B2B channels. SDR Agent can work alongside your sales team to nurture institutional accounts without adding headcount.'
   },
   twoway: {
     name: 'Two-Way Conversation Agent',
@@ -795,31 +795,31 @@ const AGENTS = {
       'Maintains conversation memory across sessions and channels',
       'Escalates to a human agent with full thread context when needed'
     ],
-    wiley: 'Could power conversational re-engagement for Wiley\u2019s reader base \u2014 responding to subscription queries or renewal prompts without involving the service team.'
+    wiley: 'Could power conversational re-engagement for Wiley\u2019s reader base. It responds to subscription queries or renewal prompts without involving the service team.'
   },
   segmentation: {
     name: 'Segmentation Agent',
     badge: 'pilot', badgeLabel: 'Pilot Now',
-    desc: 'Builds and refines audience segments using natural language. Tell it who you want to reach and it creates the segment \u2014 no SQL or rule-building required.',
+    desc: 'Builds and refines audience segments using natural language. Tell it who you want to reach and it creates the segment. No SQL or rule-building required.',
     caps: [
       'Interprets plain-language briefs like \u201clapsed subscribers in EMEA\u201d into precise segments',
       'Surfaces predictive attributes (likelihood to convert, churn risk) automatically',
       'Refreshes segments dynamically as customer data changes',
       'Explains every segment rule so marketers can understand and trust the output'
     ],
-    wiley: 'High value for Wiley\u2019s 200M monthly visitors \u2014 segmenting by reading behaviour, topic affinity, and institutional affiliation without relying on the data team for every query.'
+    wiley: 'High value for Wiley\u2019s 200M monthly visitors. Segment by reading behaviour, topic affinity, and institutional affiliation without relying on the data team for every query.'
   },
   campaign: {
     name: 'Campaign Agent',
     badge: 'ga', badgeLabel: 'GA Now',
-    desc: 'Generates a full campaign from a single brief. Audience, content, journey, and launch settings \u2014 drafted and ready to review in minutes.',
+    desc: 'Generates a full campaign from a single brief. Audience, content, journey, and launch settings. Drafted and ready to review in minutes.',
     caps: [
       'Turns a one-line brief into a complete campaign structure',
       'Recommends audience, channels, content, timing, and goals',
       'Drafts subject lines, email copy, and CTAs aligned to your brief',
       'Routes draft for human approval before anything is sent'
     ],
-    wiley: 'The most immediately relevant agent for Wiley\u2019s team \u2014 your team already uses AI for campaign briefs. Campaign Agent closes the loop by turning that brief into a live campaign.'
+    wiley: 'The most immediately relevant agent for Wiley\u2019s team. Your team already uses AI for campaign briefs. Campaign Agent closes the loop by turning that brief into a live campaign.'
   },
   content: {
     name: 'Content Agent',
@@ -831,7 +831,7 @@ const AGENTS = {
       'Produces variants for A/B testing without additional effort',
       'Learns from engagement data to improve future output'
     ],
-    wiley: 'Useful for scaling content production across Wiley\u2019s academic topics and product lines \u2014 letting a lean team cover far more ground without quality dropping.'
+    wiley: 'Useful for scaling content production across Wiley\u2019s academic topics and product lines. A lean team can cover far more ground without quality dropping.'
   },
   loyalty: {
     name: 'Loyalty Promo Agent',
@@ -843,7 +843,7 @@ const AGENTS = {
       'Manages promotional calendars and member communication sequences',
       'Tracks redemption rates and adjusts offer logic based on performance'
     ],
-    wiley: 'Relevant for Wiley\u2019s subscription products \u2014 identifying readers whose engagement is falling before they cancel, and re-engaging them with targeted content or offers.'
+    wiley: 'Relevant for Wiley\u2019s subscription products. It identifies readers whose engagement is falling before they cancel, and re-engaging them with targeted content or offers.'
   },
   offer: {
     name: 'Offer Management Agent',
@@ -855,7 +855,7 @@ const AGENTS = {
       'Tests offer variants and learns which mechanics work for each segment',
       'Integrates with campaign and journey flows so offers trigger automatically'
     ],
-    wiley: 'Useful for Wiley\u2019s institutional subscription renewals \u2014 ensuring the right discount level is applied without leaving margin on the table.'
+    wiley: 'Useful for Wiley\u2019s institutional subscription renewals. It ensures the right discount level is applied without leaving margin on the table.'
   },
   website: {
     name: 'Adaptive Website Agent',
@@ -867,7 +867,7 @@ const AGENTS = {
       'Works without cookies for anonymous visitors using modelled signals',
       'Reports which personalisation decisions drove the most engagement'
     ],
-    wiley: 'Significant opportunity for Wiley\u2019s 200M monthly visits \u2014 showing each visitor relevant journals, books, or events based on their research interests and history.'
+    wiley: 'Significant opportunity for Wiley\u2019s 200M monthly visits. Each visitor sees relevant journals, books, or events based on their research interests and history.'
   },
   personalization: {
     name: 'Personalization Agent',
@@ -879,7 +879,7 @@ const AGENTS = {
       'Uses predictive models to select offers, content, and timing',
       'Feeds performance back into the model to improve future decisions'
     ],
-    wiley: 'Connects directly to Wiley\u2019s MIDB \u2014 personalisation decisions can draw on proprietary reader and institutional data that no competitor has access to.'
+    wiley: 'Connects directly to Wiley\u2019s MIDB. Personalisation decisions draw on proprietary reader and institutional data that no competitor has access to.'
   },
   goals: {
     name: 'Marketing Goals Agent',
@@ -891,7 +891,7 @@ const AGENTS = {
       'Recommends budget shifts, audience changes, or content updates',
       'Connects marketing performance to pipeline and revenue outcomes'
     ],
-    wiley: 'Useful for Tom and Jessica\u2019s reporting needs \u2014 getting a clear read on what\u2019s working across the four approved workstreams without building custom dashboards.'
+    wiley: 'Useful for Tom and Jessica\u2019s reporting needs. Get a clear read on what\u2019s working across the four approved workstreams without building custom dashboards.'
   },
   journey: {
     name: 'Journey Decisioning Agent',
@@ -903,7 +903,7 @@ const AGENTS = {
       'Re-evaluates decisions at every trigger, not just at journey entry',
       'Reduces journey maintenance overhead as audience behaviour shifts'
     ],
-    wiley: 'Directly relevant to the four-step Conceive/Approve/Build/Activate process \u2014 Journey Decisioning Agent can manage the \u201cActivate\u201d stage dynamically once the campaign is live.'
+    wiley: 'Directly relevant to the four-step Conceive/Approve/Build/Activate process. Journey Decisioning Agent manages the \u201cActivate\u201d stage dynamically once the campaign is live.'
   },
   paidmedia: {
     name: 'Paid Media Optimization Agent',
@@ -915,7 +915,7 @@ const AGENTS = {
       'Suppresses existing customers from acquisition campaigns automatically',
       'Reports on paid-to-owned attribution in a single view'
     ],
-    wiley: 'High value for Wiley\u2019s ABM efforts \u2014 using your institutional account data to run targeted paid campaigns against the specific organisations your sales team is working.'
+    wiley: 'High value for Wiley\u2019s ABM efforts. Use your institutional account data to run targeted paid campaigns against the specific organisations your sales team is working.'
   },
   analytics: {
     name: 'Analytics Agent',
@@ -927,7 +927,7 @@ const AGENTS = {
       'Generates shareable reports without manual data pulling',
       'Connects to Data Cloud so answers draw on your full customer dataset'
     ],
-    wiley: 'Useful for reducing the back-and-forth between Wiley\u2019s marketing team and analysts \u2014 let the team answer their own questions without waiting for a data request.'
+    wiley: 'Useful for reducing the back-and-forth between Wiley\u2019s marketing team and analysts. The team can answer their own questions without waiting for a data request.'
   },
   planning: {
     name: 'Planning & Ops Agent',
@@ -939,7 +939,7 @@ const AGENTS = {
       'Flags resource conflicts and suggests re-prioritisation',
       'Connects briefing, content creation, and launch into one managed flow'
     ],
-    wiley: 'Directly relevant to the four-step process Tom and Jessica described \u2014 Planning & Ops Agent manages the \u201cApprove\u201d and \u201cBuild\u201d stages, reducing manual coordination across the team.'
+    wiley: 'Directly relevant to the four-step process Tom and Jessica described. Planning & Ops Agent manages the \u201cApprove\u201d and \u201cBuild\u201d stages. It reduces manual coordination across the team.'
   }
 };
 
