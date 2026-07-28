@@ -190,9 +190,37 @@ footer p{font-size:12px;color:rgba(255,255,255,0.45)}
   .nav-tabs a{padding:6px 8px;font-size:11px}
   section,footer,.hero-dark,.hero-light,.cta-strip{padding-left:20px;padding-right:20px}
 }
+
+/* Agent detail modal */
+.am-overlay{position:fixed;inset:0;z-index:998;background:rgba(2,15,40,0.85);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:24px}
+.am-overlay.open{display:flex}
+.am-card{background:linear-gradient(145deg,#021E4E 0%,#032D60 55%,#0B3D7A 100%);border:1px solid rgba(255,255,255,0.1);border-radius:20px;max-width:500px;width:100%;padding:36px 36px 32px;position:relative;box-shadow:0 32px 80px rgba(0,0,0,0.5);animation:am-in .22s ease}
+@keyframes am-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.am-close{position:absolute;top:14px;right:14px;width:30px;height:30px;border:none;background:rgba(255,255,255,0.1);border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;color:rgba(255,255,255,0.7);transition:background .15s;font-family:inherit}
+.am-close:hover{background:rgba(255,255,255,0.18)}
+.am-badge{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;padding:3px 10px;border-radius:20px;margin-bottom:14px}
+.am-badge.ga{background:rgba(46,132,74,0.3);color:#6EE7B7}
+.am-badge.pilot{background:rgba(1,118,211,0.3);color:#7DD3F8}
+.am-badge.soon{background:rgba(88,103,232,0.3);color:#C4B5FD}
+.am-name{font-size:22px;font-weight:900;color:#fff;letter-spacing:-0.03em;margin-bottom:10px;line-height:1.2}
+.am-desc{font-size:14px;color:rgba(255,255,255,0.65);line-height:1.65;margin-bottom:20px}
+.am-caps-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#7DD3F8;margin-bottom:10px}
+.am-caps{display:flex;flex-direction:column;gap:8px}
+.am-cap{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;color:rgba(255,255,255,0.75);line-height:1.45}
+.am-cap::before{content:'';width:6px;height:6px;border-radius:50%;background:#06A59A;flex-shrink:0;margin-top:5px}
+.am-wiley{margin-top:20px;padding:14px 16px;background:rgba(6,165,154,0.12);border:1px solid rgba(6,165,154,0.25);border-radius:12px;font-size:13px;color:rgba(255,255,255,0.7);line-height:1.55}
+.am-wiley strong{color:#5EEAD4;display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px}
+.agent-card{cursor:pointer}
 </style>
 </head>
 <body>
+<div class="am-overlay" id="am-overlay" onclick="if(event.target===this)closeAgent()">
+  <div class="am-card">
+    <button class="am-close" onclick="closeAgent()">&#10005;</button>
+    <div id="am-content"></div>
+  </div>
+</div>
+
 
 <!-- MODAL -->
 <div class="modal-overlay" id="modal">
@@ -251,20 +279,20 @@ footer p{font-size:12px;color:rgba(255,255,255,0.45)}
       <h2>Pick your starting point.</h2>
       <p class="section-intro">These are the agents available in Agentforce Marketing right now. Wiley already has access to several of these through your existing MCAE licences.</p>
       <div class="agent-grid">
-        <div class="agent-card"><div class="agent-card-name">SDR Agent</div><span class="badge-ga">GA Now</span></div>
-        <div class="agent-card"><div class="agent-card-name">Two-Way Conversation Agent</div><span class="badge-ga">GA Now</span></div>
-        <div class="agent-card"><div class="agent-card-name">Segmentation Agent</div><span class="badge-pilot">Pilot Now</span></div>
-        <div class="agent-card"><div class="agent-card-name">Campaign Agent</div><span class="badge-ga">GA Now</span></div>
-        <div class="agent-card"><div class="agent-card-name">Content Agent</div><span class="badge-pilot">Pilot Now</span></div>
-        <div class="agent-card"><div class="agent-card-name">Loyalty Promo Agent</div><span class="badge-ga">GA Now</span></div>
-        <div class="agent-card"><div class="agent-card-name">Offer Management Agent</div><span class="badge-soon">GA July '26</span></div>
-        <div class="agent-card"><div class="agent-card-name">Adaptive Website Agent</div><span class="badge-ga">GA Now</span></div>
-        <div class="agent-card"><div class="agent-card-name">Personalization Agent</div><span class="badge-ga">GA Now</span></div>
-        <div class="agent-card"><div class="agent-card-name">Marketing Goals Agent</div><span class="badge-pilot">Pilot Now</span></div>
-        <div class="agent-card"><div class="agent-card-name">Journey Decisioning Agent</div><span class="badge-ga">GA Now</span></div>
-        <div class="agent-card"><div class="agent-card-name">Paid Media Optimization Agent</div><span class="badge-ga">GA Now</span></div>
-        <div class="agent-card"><div class="agent-card-name">Analytics Agent</div><span class="badge-ga">GA Now</span></div>
-        <div class="agent-card"><div class="agent-card-name">Planning &amp; Ops Agent</div><span class="badge-soon">Pilot Oct '26</span></div>
+        <div class="agent-card" onclick="openAgent('sdr')" title="Click for more info"><div class="agent-card-name">SDR Agent</div><span class="badge-ga">GA Now</span></div>
+        <div class="agent-card" onclick="openAgent('twoway')" title="Click for more info"><div class="agent-card-name">Two-Way Conversation Agent</div><span class="badge-ga">GA Now</span></div>
+        <div class="agent-card" onclick="openAgent('segmentation')" title="Click for more info"><div class="agent-card-name">Segmentation Agent</div><span class="badge-pilot">Pilot Now</span></div>
+        <div class="agent-card" onclick="openAgent('campaign')" title="Click for more info"><div class="agent-card-name">Campaign Agent</div><span class="badge-ga">GA Now</span></div>
+        <div class="agent-card" onclick="openAgent('content')" title="Click for more info"><div class="agent-card-name">Content Agent</div><span class="badge-pilot">Pilot Now</span></div>
+        <div class="agent-card" onclick="openAgent('loyalty')" title="Click for more info"><div class="agent-card-name">Loyalty Promo Agent</div><span class="badge-ga">GA Now</span></div>
+        <div class="agent-card" onclick="openAgent('offer')" title="Click for more info"><div class="agent-card-name">Offer Management Agent</div><span class="badge-soon">GA July '26</span></div>
+        <div class="agent-card" onclick="openAgent('website')" title="Click for more info"><div class="agent-card-name">Adaptive Website Agent</div><span class="badge-ga">GA Now</span></div>
+        <div class="agent-card" onclick="openAgent('personalization')" title="Click for more info"><div class="agent-card-name">Personalization Agent</div><span class="badge-ga">GA Now</span></div>
+        <div class="agent-card" onclick="openAgent('goals')" title="Click for more info"><div class="agent-card-name">Marketing Goals Agent</div><span class="badge-pilot">Pilot Now</span></div>
+        <div class="agent-card" onclick="openAgent('journey')" title="Click for more info"><div class="agent-card-name">Journey Decisioning Agent</div><span class="badge-ga">GA Now</span></div>
+        <div class="agent-card" onclick="openAgent('paidmedia')" title="Click for more info"><div class="agent-card-name">Paid Media Optimization Agent</div><span class="badge-ga">GA Now</span></div>
+        <div class="agent-card" onclick="openAgent('analytics')" title="Click for more info"><div class="agent-card-name">Analytics Agent</div><span class="badge-ga">GA Now</span></div>
+        <div class="agent-card" onclick="openAgent('planning')" title="Click for more info"><div class="agent-card-name">Planning &amp; Ops Agent</div><span class="badge-soon">Pilot Oct '26</span></div>
       </div>
     </div>
   </section>
@@ -742,6 +770,201 @@ function closeModal() {
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeModal();
 });
+
+// Agent detail modal data
+const AGENTS = {
+  sdr: {
+    name: 'SDR Agent',
+    badge: 'ga', badgeLabel: 'GA Now',
+    desc: 'Automates outbound prospecting. Identifies high-intent contacts, sends personalised outreach, and books meetings directly into sales reps\' calendars without manual effort.',
+    caps: [
+      'Surfaces high-intent leads from your CRM and first-party data',
+      'Generates personalised outreach sequences across email and SMS',
+      'Handles replies, qualifies interest, and routes to humans when ready',
+      'Books meetings automatically into calendar with full context attached'
+    ],
+    wiley: 'Relevant for Wiley\u2019s academic and B2B channels \u2014 SDR Agent can work alongside your sales team to nurture institutional accounts without adding headcount.'
+  },
+  twoway: {
+    name: 'Two-Way Conversation Agent',
+    badge: 'ga', badgeLabel: 'GA Now',
+    desc: 'Manages real-time back-and-forth with contacts over SMS, email, or chat. Holds the conversation, handles replies, and knows when to hand off to a human.',
+    caps: [
+      'Responds to inbound replies with contextually relevant follow-ups',
+      'Handles FAQs, opt-outs, reschedules, and objection handling',
+      'Maintains conversation memory across sessions and channels',
+      'Escalates to a human agent with full thread context when needed'
+    ],
+    wiley: 'Could power conversational re-engagement for Wiley\u2019s reader base \u2014 responding to subscription queries or renewal prompts without involving the service team.'
+  },
+  segmentation: {
+    name: 'Segmentation Agent',
+    badge: 'pilot', badgeLabel: 'Pilot Now',
+    desc: 'Builds and refines audience segments using natural language. Tell it who you want to reach and it creates the segment \u2014 no SQL or rule-building required.',
+    caps: [
+      'Interprets plain-language briefs like \u201clapsed subscribers in EMEA\u201d into precise segments',
+      'Surfaces predictive attributes (likelihood to convert, churn risk) automatically',
+      'Refreshes segments dynamically as customer data changes',
+      'Explains every segment rule so marketers can understand and trust the output'
+    ],
+    wiley: 'High value for Wiley\u2019s 200M monthly visitors \u2014 segmenting by reading behaviour, topic affinity, and institutional affiliation without relying on the data team for every query.'
+  },
+  campaign: {
+    name: 'Campaign Agent',
+    badge: 'ga', badgeLabel: 'GA Now',
+    desc: 'Generates a full campaign from a single brief. Audience, content, journey, and launch settings \u2014 drafted and ready to review in minutes.',
+    caps: [
+      'Turns a one-line brief into a complete campaign structure',
+      'Recommends audience, channels, content, timing, and goals',
+      'Drafts subject lines, email copy, and CTAs aligned to your brief',
+      'Routes draft for human approval before anything is sent'
+    ],
+    wiley: 'The most immediately relevant agent for Wiley\u2019s team \u2014 your team already uses AI for campaign briefs. Campaign Agent closes the loop by turning that brief into a live campaign.'
+  },
+  content: {
+    name: 'Content Agent',
+    badge: 'pilot', badgeLabel: 'Pilot Now',
+    desc: 'Creates on-brand copy for emails, landing pages, SMS, and ads. Uses your brand guidelines and past performance data to write content that fits the audience.',
+    caps: [
+      'Generates email body, subject lines, and preview text from a brief',
+      'Applies brand voice, tone, and style rules automatically',
+      'Produces variants for A/B testing without additional effort',
+      'Learns from engagement data to improve future output'
+    ],
+    wiley: 'Useful for scaling content production across Wiley\u2019s academic topics and product lines \u2014 letting a lean team cover far more ground without quality dropping.'
+  },
+  loyalty: {
+    name: 'Loyalty Promo Agent',
+    badge: 'ga', badgeLabel: 'GA Now',
+    desc: 'Manages loyalty programme communications and promotional offers. Identifies members at risk of lapsing and triggers personalised retention campaigns before they drop off.',
+    caps: [
+      'Monitors loyalty programme engagement and flags at-risk members',
+      'Triggers personalised retention offers at the right moment',
+      'Manages promotional calendars and member communication sequences',
+      'Tracks redemption rates and adjusts offer logic based on performance'
+    ],
+    wiley: 'Relevant for Wiley\u2019s subscription products \u2014 identifying readers whose engagement is falling before they cancel, and re-engaging them with targeted content or offers.'
+  },
+  offer: {
+    name: 'Offer Management Agent',
+    badge: 'soon', badgeLabel: 'GA July \u201926',
+    desc: 'Determines the right offer for the right customer at the right moment. Uses AI to optimise how and when incentives are used across your customer base.',
+    caps: [
+      'Scores each customer\u2019s likelihood to respond to a given offer',
+      'Prevents discount over-use by identifying customers who\u2019ll convert without one',
+      'Tests offer variants and learns which mechanics work for each segment',
+      'Integrates with campaign and journey flows so offers trigger automatically'
+    ],
+    wiley: 'Useful for Wiley\u2019s institutional subscription renewals \u2014 ensuring the right discount level is applied without leaving margin on the table.'
+  },
+  website: {
+    name: 'Adaptive Website Agent',
+    badge: 'ga', badgeLabel: 'GA Now',
+    desc: 'Personalises web content in real time for each visitor based on their profile, behaviour, and predicted intent. No manual rules or developer changes needed.',
+    caps: [
+      'Swaps hero content, CTAs, and product recommendations per visitor',
+      'Uses unified customer profile data to drive personalisation decisions',
+      'Works without cookies for anonymous visitors using modelled signals',
+      'Reports which personalisation decisions drove the most engagement'
+    ],
+    wiley: 'Significant opportunity for Wiley\u2019s 200M monthly visits \u2014 showing each visitor relevant journals, books, or events based on their research interests and history.'
+  },
+  personalization: {
+    name: 'Personalization Agent',
+    badge: 'ga', badgeLabel: 'GA Now',
+    desc: 'Selects the right message, product, or experience for each customer across every channel. Powers 1:1 personalisation at scale using unified data from your CDP.',
+    caps: [
+      'Determines next best action for each customer in real time',
+      'Works across email, SMS, push, web, and paid media simultaneously',
+      'Uses predictive models to select offers, content, and timing',
+      'Feeds performance back into the model to improve future decisions'
+    ],
+    wiley: 'Connects directly to Wiley\u2019s MIDB \u2014 personalisation decisions can draw on proprietary reader and institutional data that no competitor has access to.'
+  },
+  goals: {
+    name: 'Marketing Goals Agent',
+    badge: 'pilot', badgeLabel: 'Pilot Now',
+    desc: 'Tracks campaign performance against targets and surfaces optimisation recommendations. Flags underperforming campaigns before the end date so there\u2019s time to act.',
+    caps: [
+      'Monitors live campaigns against defined KPIs and pacing targets',
+      'Generates natural-language performance summaries for stakeholders',
+      'Recommends budget shifts, audience changes, or content updates',
+      'Connects marketing performance to pipeline and revenue outcomes'
+    ],
+    wiley: 'Useful for Tom and Jessica\u2019s reporting needs \u2014 getting a clear read on what\u2019s working across the four approved workstreams without building custom dashboards.'
+  },
+  journey: {
+    name: 'Journey Decisioning Agent',
+    badge: 'ga', badgeLabel: 'GA Now',
+    desc: 'Determines the next best action for each customer in real time. Replaces static journey rules with dynamic AI decisions that adapt as customer behaviour changes.',
+    caps: [
+      'Evaluates each customer\u2019s context and selects the best next touchpoint',
+      'Replaces if/then journey logic with model-driven decision trees',
+      'Re-evaluates decisions at every trigger, not just at journey entry',
+      'Reduces journey maintenance overhead as audience behaviour shifts'
+    ],
+    wiley: 'Directly relevant to the four-step Conceive/Approve/Build/Activate process \u2014 Journey Decisioning Agent can manage the \u201cActivate\u201d stage dynamically once the campaign is live.'
+  },
+  paidmedia: {
+    name: 'Paid Media Optimization Agent',
+    badge: 'ga', badgeLabel: 'GA Now',
+    desc: 'Syncs your audience segments to paid media platforms and optimises spend automatically. Closes the loop between your first-party data and your ad investment.',
+    caps: [
+      'Pushes CRM audiences to Meta, Google, LinkedIn, and programmatic channels',
+      'Adjusts bids and budgets in real time based on performance signals',
+      'Suppresses existing customers from acquisition campaigns automatically',
+      'Reports on paid-to-owned attribution in a single view'
+    ],
+    wiley: 'High value for Wiley\u2019s ABM efforts \u2014 using your institutional account data to run targeted paid campaigns against the specific organisations your sales team is working.'
+  },
+  analytics: {
+    name: 'Analytics Agent',
+    badge: 'ga', badgeLabel: 'GA Now',
+    desc: 'Answers marketing performance questions in natural language. Ask anything about your campaigns, audiences, or results and get an instant, data-backed answer.',
+    caps: [
+      'Queries campaign data using plain English questions',
+      'Surfaces trends, anomalies, and attribution insights automatically',
+      'Generates shareable reports without manual data pulling',
+      'Connects to Data Cloud so answers draw on your full customer dataset'
+    ],
+    wiley: 'Useful for reducing the back-and-forth between Wiley\u2019s marketing team and analysts \u2014 let the team answer their own questions without waiting for a data request.'
+  },
+  planning: {
+    name: 'Planning & Ops Agent',
+    badge: 'soon', badgeLabel: 'Pilot Oct \u201926',
+    desc: 'Manages campaign calendars, team workloads, and approval workflows. Reduces the coordination overhead that slows campaigns down from brief to live.',
+    caps: [
+      'Maintains a shared campaign calendar with automated scheduling logic',
+      'Routes assets through approval workflows and chases reviewers automatically',
+      'Flags resource conflicts and suggests re-prioritisation',
+      'Connects briefing, content creation, and launch into one managed flow'
+    ],
+    wiley: 'Directly relevant to the four-step process Tom and Jessica described \u2014 Planning & Ops Agent manages the \u201cApprove\u201d and \u201cBuild\u201d stages, reducing manual coordination across the team.'
+  }
+};
+
+function openAgent(key) {
+  const a = AGENTS[key];
+  if (!a) return;
+  const badgeClass = a.badge;
+  const capsHtml = a.caps.map(c => `<div class="am-cap">${c}</div>`).join('');
+  const wileyHtml = a.wiley ? `<div class="am-wiley"><strong>Wiley Relevance</strong>${a.wiley}</div>` : '';
+  document.getElementById('am-content').innerHTML = `
+    <span class="am-badge ${badgeClass}">${a.badgeLabel}</span>
+    <div class="am-name">${a.name}</div>
+    <div class="am-desc">${a.desc}</div>
+    <div class="am-caps-label">Key Capabilities</div>
+    <div class="am-caps">${capsHtml}</div>
+    ${wileyHtml}
+  `;
+  const overlay = document.getElementById('am-overlay');
+  overlay.classList.add('open');
+}
+function closeAgent() {
+  document.getElementById('am-overlay').classList.remove('open');
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAgent(); });
+
 </script>
 </body>
 </html>
