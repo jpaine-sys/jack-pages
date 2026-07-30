@@ -482,6 +482,19 @@
   .nav-logo-divider{width:1px;height:20px;background:rgba(255,255,255,0.25)}
   .customer-logo{height:20px;width:auto;filter:brightness(0) invert(1);opacity:0.85}
   .nav-page-label{font-size:11px;color:rgba(255,255,255,0.5);font-weight:500;justify-self:end}
+
+  /* RESOURCE LIST */
+  .resource-list { display: flex; flex-direction: column; gap: 20px; }
+  .resource-item { display: flex; align-items: flex-start; gap: 16px; padding: 20px 24px; background: white; border: 1px solid var(--border); border-radius: var(--r); }
+  .resource-icon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+  .resource-title { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 6px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .resource-title a { color: var(--navy); text-decoration: none; }
+  .resource-title a:hover { color: var(--blue); }
+  .resource-desc { font-size: 13px; color: var(--muted); line-height: 1.65; }
+  .resource-badge { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.4px; white-space: nowrap; }
+  .badge-ready { background: #EEF7F0; color: #2E844A; }
+  .badge-pending { background: #FFF3E0; color: #E65C00; }
+
 </style>
 </head>
 <body>
@@ -493,7 +506,7 @@
     <h2>Thanks for sharing the OKRs, Colin.</h2>
     <p>This page maps directly to what you shared in June. The core idea: <strong>right-sizing the current contract releases budget that has already been paid for</strong>, and that budget funds the Data360 connection and the upgrade to MC Next with no net additional spend.</p>
     <p>We have tried to keep this grounded in your numbers and your timelines. The January 2027 renewal is the natural moment to get this in place.</p>
-    <p>Inside: the proposal and how it maps to your OKRs, the three contract changes, what Data360 unlocks for GSMA, and six use cases showing what becomes possible once the data layer is connected.</p>
+    <p>Inside: the proposal and OKR mapping, the three contract changes, six use cases showing what becomes possible once the data layer is connected, a timeline from now to the January renewal, and a Data 360 resources tab with activation guides, Trailhead trails, and videos.</p>
     <div class="modal-divider"></div>
     <div class="modal-footer">
       <div class="modal-sig"><strong>Jack Paine</strong>Account Executive, Salesforce</div>
@@ -511,6 +524,8 @@
   <div class="nav-center-tabs">
     <button class="ntab active" onclick="switchTab('proposal', this)">The Proposal</button>
     <button class="ntab" onclick="switchTab('usecases', this)">Use Cases</button>
+    <button class="ntab" onclick="switchTab('timeline', this)">Timeline</button>
+    <button class="ntab" onclick="switchTab('resources', this)">Resources</button>
   </div>
   <div class="nav-links" id="proposal-nav-links">
     <span class="nav-page-label">For Colin Mann · GSMA</span>
@@ -777,63 +792,6 @@
   </div>
 </section>
 
-<section id="timeline">
-  <div class="section-inner">
-    <div class="section-label">Between now and January</div>
-    <h2>Adoption timeline</h2>
-    <p class="section-sub">How GSMA gets from scoping to fully using Data360, Marketing Cloud Personalisation, and Marketing Cloud Next before the January renewal date.</p>
-
-    <div class="tl-wrap">
-      <div class="tl-track">
-
-        <div class="tl-step">
-          <div class="tl-dot now">NOW</div>
-          <div class="tl-date">July 2026</div>
-          <div class="tl-phase">Data360 scoped and SI selected</div>
-          <div class="tl-desc">Data360 architecture agreed with Fluency X. CRM and member gateway identified as first data sources to connect.</div>
-          <div class="tl-badge">In progress</div>
-        </div>
-
-        <div class="tl-step">
-          <div class="tl-dot soon">2</div>
-          <div class="tl-date">Aug - Sep 2026</div>
-          <div class="tl-phase">First data sources connected</div>
-          <div class="tl-desc">Data360 provisioned. CRM and member gateway data flowing. First unified member profiles created. Website data ingestion begins.</div>
-          <div class="tl-badge">Data360 live</div>
-        </div>
-
-        <div class="tl-step">
-          <div class="tl-dot soon">3</div>
-          <div class="tl-date">Oct - Nov 2026</div>
-          <div class="tl-phase">Personalisation and frequency cap active</div>
-          <div class="tl-desc">MCP+ personalisation live on GSMA web properties. Paid media audiences activated. Global frequency cap enforced across all BUs.</div>
-          <div class="tl-badge">MCP+ active</div>
-        </div>
-
-        <div class="tl-step">
-          <div class="tl-dot soon">4</div>
-          <div class="tl-date">Nov - Dec 2026</div>
-          <div class="tl-phase">Agentforce agents running</div>
-          <div class="tl-desc">MCE+ fully adopted. First Agentforce Marketing agents building audiences and running journeys autonomously. Behavioural triggers live.</div>
-          <div class="tl-badge">MCE+ active</div>
-        </div>
-
-        <div class="tl-step">
-          <div class="tl-dot final">JAN</div>
-          <div class="tl-date">January 2027</div>
-          <div class="tl-phase">Fully adopted at renewal</div>
-          <div class="tl-desc">GSMA renewing with Data360, MCP+, and MCE+ all in active use. Unified profiles live. Agentforce campaigns running. Clean data model established.</div>
-          <div class="tl-badge renewal">Renewal date</div>
-        </div>
-
-      </div>
-      <div class="tl-note">
-        The goal is for GSMA to arrive at the January renewal already using the platform, not just signing up for it.
-      </div>
-    </div>
-  </div>
-</section>
-
 <div class="cta">
   <h2>I hope this is helpful</h2>
   <p>Happy to walk through this in more detail with the team.</p>
@@ -1075,6 +1033,227 @@
   </footer>
 
 </div><!-- /panel-usecases -->
+
+<!-- ============================================================ -->
+<!-- TIMELINE PANEL                                               -->
+<!-- ============================================================ -->
+<div id="panel-timeline" class="tab-panel">
+
+  <div class="uc-hero">
+    <div class="uc-hero-inner">
+      <button class="uc-back" onclick="switchTab('proposal', document.querySelectorAll('.ntab')[0])">
+        &larr; Back to the proposal
+      </button>
+      <h1>From now to <em>January renewal.</em></h1>
+      <p>Five phases from scoping to fully live before the contract date. The goal is to arrive at renewal already using the platform.</p>
+    </div>
+  </div>
+
+  <section style="padding: 64px 48px;">
+    <div class="section-inner">
+      <div class="section-label">Between now and January</div>
+      <h2>Adoption timeline</h2>
+      <p class="section-sub">How GSMA gets from scoping to fully using Data360, Marketing Cloud Personalisation, and Marketing Cloud Next before the January renewal date.</p>
+
+      <div class="tl-wrap">
+        <div class="tl-track">
+
+          <div class="tl-step">
+            <div class="tl-dot now">NOW</div>
+            <div class="tl-date">July 2026</div>
+            <div class="tl-phase">Data360 scoped and SI selected</div>
+            <div class="tl-desc">Data360 architecture agreed with Fluency X. CRM and member gateway identified as first data sources to connect.</div>
+            <div class="tl-badge">In progress</div>
+          </div>
+
+          <div class="tl-step">
+            <div class="tl-dot soon">2</div>
+            <div class="tl-date">Aug &ndash; Sep 2026</div>
+            <div class="tl-phase">First data sources connected</div>
+            <div class="tl-desc">Data360 provisioned. CRM and member gateway data flowing. First unified member profiles created. Website data ingestion begins.</div>
+            <div class="tl-badge">Data360 live</div>
+          </div>
+
+          <div class="tl-step">
+            <div class="tl-dot soon">3</div>
+            <div class="tl-date">Oct &ndash; Nov 2026</div>
+            <div class="tl-phase">Personalisation and frequency cap active</div>
+            <div class="tl-desc">MCP+ personalisation live on GSMA web properties. Paid media audiences activated. Global frequency cap enforced across all BUs.</div>
+            <div class="tl-badge">MCP+ active</div>
+          </div>
+
+          <div class="tl-step">
+            <div class="tl-dot soon">4</div>
+            <div class="tl-date">Nov &ndash; Dec 2026</div>
+            <div class="tl-phase">Agentforce agents running</div>
+            <div class="tl-desc">MCE+ fully adopted. First Agentforce Marketing agents building audiences and running journeys autonomously. Behavioural triggers live.</div>
+            <div class="tl-badge">MCE+ active</div>
+          </div>
+
+          <div class="tl-step">
+            <div class="tl-dot final">JAN</div>
+            <div class="tl-date">January 2027</div>
+            <div class="tl-phase">Fully adopted at renewal</div>
+            <div class="tl-desc">GSMA renewing with Data360, MCP+, and MCE+ all in active use. Unified profiles live. Agentforce campaigns running. Clean data model established.</div>
+            <div class="tl-badge renewal">Renewal date</div>
+          </div>
+
+        </div>
+        <div class="tl-note">
+          The goal is for GSMA to arrive at the January renewal already using the platform, not just signing up for it.
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /panel-timeline -->
+
+<!-- ============================================================ -->
+<!-- RESOURCES PANEL                                              -->
+<!-- ============================================================ -->
+<div id="panel-resources" class="tab-panel">
+
+  <div class="uc-hero">
+    <div class="uc-hero-inner">
+      <button class="uc-back" onclick="switchTab('proposal', document.querySelectorAll('.ntab')[0])">
+        &larr; Back to the proposal
+      </button>
+      <h1>Data 360 <em>resources.</em></h1>
+      <p>Activation guides, Trailhead trails, and demo videos to get familiar with the platform before we meet.</p>
+    </div>
+  </div>
+
+  <section style="padding: 64px 48px;" class="alt">
+    <div class="section-inner">
+      <div class="section-label">Activation Guides</div>
+      <h2>Getting Data 360 set up</h2>
+      <p class="section-sub">Official Salesforce Help documentation covering the core setup steps relevant to GSMA's use case.</p>
+      <div class="resource-list">
+        <div class="resource-item">
+          <div class="resource-icon">&#128196;</div>
+          <div>
+            <div class="resource-title">
+              <a href="https://help.salesforce.com/s/articleView?id=data.c360_a_product_considerations.htm&type=5" target="_blank">Get Started with Data 360</a>
+              <span class="resource-badge badge-ready">Shareable</span>
+            </div>
+            <div class="resource-desc">The official starting point. Covers what Data 360 is, what it requires, and the key decisions to make before provisioning. Good context for Colin and the team before the scoping session with Fluency X.</div>
+          </div>
+        </div>
+        <div class="resource-item">
+          <div class="resource-icon">&#128101;</div>
+          <div>
+            <div class="resource-title">
+              <a href="https://help.salesforce.com/s/articleView?id=data.c360_a_identity_resolution_unify_individuals.htm&type=5" target="_blank">Unify Individuals: Identity Resolution Setup</a>
+              <span class="resource-badge badge-ready">Shareable</span>
+            </div>
+            <div class="resource-desc">This is the core of GSMA's member data opportunity. Explains how Data 360 matches and merges records from different sources into a single unified member profile. Directly relevant to the CRM and member gateway connection.</div>
+          </div>
+        </div>
+        <div class="resource-item">
+          <div class="resource-icon">&#128279;</div>
+          <div>
+            <div class="resource-title">
+              <a href="https://developer.salesforce.com/docs/data/data-cloud-int/guide/c360-a-thirdparty-connectors.html" target="_blank">Data 360 Connectors and Integrations</a>
+              <span class="resource-badge badge-ready">Shareable</span>
+            </div>
+            <div class="resource-desc">Covers how Data 360 connects to external data sources including CRM systems, data warehouses, and third-party platforms. Relevant context for the member gateway and event data ingestion discussion.</div>
+          </div>
+        </div>
+        <div class="resource-item">
+          <div class="resource-icon">&#128202;</div>
+          <div>
+            <div class="resource-title">
+              <a href="https://help.salesforce.com/s/articleView?id=data.c360_a_data_graphs.htm&type=5" target="_blank">Data Graphs: Powering Personalisation</a>
+              <span class="resource-badge badge-ready">Shareable</span>
+            </div>
+            <div class="resource-desc">Data Graphs are how Data 360 makes unified profile data available for real-time personalisation and marketing. This is the mechanism behind the web personalisation and frequency capping use cases in the proposal.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding: 64px 48px;">
+    <div class="section-inner">
+      <div class="section-label">Trailhead Learning</div>
+      <h2>Free hands-on learning</h2>
+      <p class="section-sub">Trailhead is Salesforce's free learning platform. These trails are directly relevant to what GSMA is trying to do with Data 360.</p>
+      <div class="resource-list">
+        <div class="resource-item">
+          <div class="resource-icon">&#127939;</div>
+          <div>
+            <div class="resource-title">
+              <a href="https://trailhead.salesforce.com/content/learn/trails/data-cloud-explore-setup-to-activation" target="_blank">Explore Data 360: Setup to Activation</a>
+              <span class="resource-badge badge-ready">Shareable</span>
+            </div>
+            <div class="resource-desc">The complete beginner trail for Data 360. Covers provisioning, connecting data sources, identity resolution, building segments, and activating audiences. A good end-to-end grounding in the platform before the implementation starts.</div>
+          </div>
+        </div>
+        <div class="resource-item">
+          <div class="resource-icon">&#129302;</div>
+          <div>
+            <div class="resource-title">
+              <a href="https://trailhead.salesforce.com/content/learn/modules/data-cloud-powered-agentforce" target="_blank">Data 360-Powered Agentforce</a>
+              <span class="resource-badge badge-ready">Shareable</span>
+            </div>
+            <div class="resource-desc">Shows how unified Data 360 profiles power Agentforce Marketing agents. Directly relevant to the autonomous campaign creation and audience-building use cases covered in the proposal.</div>
+          </div>
+        </div>
+        <div class="resource-item">
+          <div class="resource-icon">&#127757;</div>
+          <div>
+            <div class="resource-title">
+              <a href="https://trailhead.salesforce.com/content/learn/modules/grounding-an-agent-with-data" target="_blank">Grounding an Agent with Data</a>
+              <span class="resource-badge badge-ready">Shareable</span>
+            </div>
+            <div class="resource-desc">Explains how to connect Data 360 data to an Agentforce agent so it can reason over real member and event data. Useful context for the marketing intelligence and MWC audience use cases.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding: 64px 48px;" class="alt">
+    <div class="section-inner">
+      <div class="section-label">Demo Videos</div>
+      <h2>See it in action</h2>
+      <p class="section-sub">Short, self-serve demos you can watch before we meet. Jack will add a Data 360-specific unified profile walkthrough once confirmed as shareable.</p>
+      <div class="resource-list">
+        <div class="resource-item">
+          <div class="resource-icon">&#127916;</div>
+          <div>
+            <div class="resource-title">
+              <a href="http://salesforce.com/agentforce/demos/interactive?d=pb" target="_blank">Agentforce Interactive Demo Library</a>
+              <span class="resource-badge badge-ready">Shareable</span>
+            </div>
+            <div class="resource-desc">Live, interactive Agentforce demos built from real customer environments. Filter by use case to explore what marketing and data teams are actually building. Good preparation for the demo session with David Taylor and Jay Jethwa.</div>
+          </div>
+        </div>
+        <div class="resource-item">
+          <div class="resource-icon">&#127909;</div>
+          <div>
+            <div class="resource-title">
+              <a href="https://help.salesforce.com/s/articleView?id=mktg.mktg_videos.htm&type=5" target="_blank">Marketing Cloud Next: Video Library</a>
+              <span class="resource-badge badge-ready">Shareable</span>
+            </div>
+            <div class="resource-desc">Step-by-step how-to videos covering the key MC Next features: campaign creation, journey builder, AI-assisted segmentation, and the Data 360 integration. Useful alongside the Trailhead trails above.</div>
+          </div>
+        </div>
+        <div class="resource-item">
+          <div class="resource-icon">&#127775;</div>
+          <div>
+            <div class="resource-title">
+              Data 360 Unified Profile Demo
+              <span class="resource-badge badge-pending">Link coming from Jack</span>
+            </div>
+            <div class="resource-desc">A walkthrough of the unified member profile in Data 360, showing how CRM and engagement data merge into a single view. Jack is confirming a customer-shareable version with the Data 360 SE team.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /panel-resources -->
 
 <script>
 function closeModal(){
